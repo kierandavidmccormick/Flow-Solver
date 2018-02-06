@@ -16,9 +16,8 @@ import java.util.LinkedList;
 //TODO: switch to depth-first/beam search
 //TODO: add compressed versions of flowBoards, nodes, colors, etc.
 //TODO: add isSolved method to flowBoards
-//TODO: add immediate addition of certain moves
 //TODO: add isSolved field to flows, provisions for
-//TODO: add to gitHub
+//TODO: add simple way to add new flowBoards
 
 public class Main extends Application {
 
@@ -66,12 +65,15 @@ public class Main extends Application {
 	    flowList.add(new Flow(new Node(new Coordinate(1, 4), Color.DARKGRAY), new Node(new Coordinate(6, 4), Color.DARKGRAY), Color.DARKGRAY));
 	    flowList.add(new Flow(new Node(new Coordinate(1, 5), Color.YELLOW), new Node(new Coordinate(6, 5), Color.YELLOW), Color.YELLOW));
 	    FlowBoard fl = new FlowBoard(new LinkedList<>(), new LinkedList<>(), flowList, null);
+	    fl.addCertainMoves();
 	    long t1 = System.currentTimeMillis();
 	    Arbor ar = new Arbor(fl);
+	    /*
 	    while (ar.layers.getLast().boards.size() > 0){
 		    ar.genLayerDepthFirst();
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 	    }
+	    */
 	    /*
 	    ar.genLayer();
 	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
@@ -92,9 +94,9 @@ public class Main extends Application {
 	    //ar.genLayersForever();
 	    for (Layer l : ar.layers){
 	    	for (FlowBoard board : l.boards){
-	    		if (board.children.size() > 0){
+	    		//if (board.children.size() > 0){
 	    			flowBoards.add(board);
-			    }
+			    //}
 		    }
 	    	//flowBoards.addAll(l.boards);
 	    }

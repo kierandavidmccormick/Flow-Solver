@@ -133,6 +133,28 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return new ArrayList<>(children);
 	}
 	
+	public void addCertainMoves(){
+		boolean addedNode = false;
+		LinkedList<Node> nodes = new LinkedList<>();
+		for (Flow f : flows){
+			for (Node n : f.workingNodes){
+				ArrayList<Coordinate> neighborCoordinates = n.loc.getNeighbors(true, false, false, false, null, this);
+				if (neighborCoordinates.size() == 1){
+					nodes.add(n);
+				}
+			}
+		}
+		for (Node n : nodes){
+			ArrayList<Coordinate> neighbors = n.loc.getNeighbors(true, false, false, false, null, this);
+			if (neighbors.size() == 1) {
+				addNode(new Node(neighbors.get(0), n.col, false, false), getFlow(n.col));
+			}
+			addedNode = true;
+		}
+		if (addedNode){
+			addCertainMoves();
+		}
+	}
 	/*
 	public Boolean addNextChildren(Node n){
 		ArrayList<Coordinate> nextChildrenRec = n.loc.getNeighbors(true, false, this);
