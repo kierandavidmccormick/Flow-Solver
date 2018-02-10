@@ -42,12 +42,32 @@ public class Layer {
 		return newNodes;
 	}
 	
-	public HashSet<FlowBoard> getNewNodes(FlowBoard f){
+	public HashSet<FlowBoard> getNewNodes(FlowBoard f, Arbor ar){
 		HashSet<FlowBoard> newNodes = new HashSet<>(f.genChildren());
+		for (FlowBoard nb : newNodes) {
+			Boolean original = true;
+			for (Layer l : ar.layers) {
+				if (l.boards.contains(f)) {
+					for (FlowBoard flowBoard : l.boards){
+						if (flowBoard.equals(nb)){
+							flowBoard.parents.add(f);
+							f.children.add(flowBoard);
+							original = false;
+						}
+					}
+				}
+			}
+			if (original){
+				nb.parents.add(f);
+				f.children.add(nb);
+			}
+		}
+		/*
 		for (FlowBoard nb : newNodes){
-			//nb.parents.add(f);
+			nb.parents.add(f);
 			f.children.add(nb);
 		}
+		*/
 		return newNodes;
 	}
 	

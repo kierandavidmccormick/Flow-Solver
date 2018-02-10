@@ -43,4 +43,11 @@ public class Node {
 		}
 		return false;
 	}
+	
+	public int hashCode(){
+		int result = 17;
+		result = 31 * result + loc.hashCode();
+		result = 31 * result + colorCode;
+		return result;
+	}
 }

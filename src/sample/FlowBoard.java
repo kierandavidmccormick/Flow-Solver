@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class FlowBoard implements Comparable<FlowBoard>{
 	public Node[][] nodes;
 	ArrayList<Flow> flows;
-	//LinkedList<FlowBoard> parents;
+	LinkedList<FlowBoard> parents;
 	LinkedList<FlowBoard> children;
 	Layer layer;
 	
@@ -42,13 +42,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				nodes[i][j] = new Node(f.nodes[i][j]);
 			}
 		}
-		/*
 		if (f.parents != null) {
 			parents = new LinkedList<>(f.parents);
 		} else {
 			parents = null;
 		}
-		*/
 		if (f.children != null) {
 			children = new LinkedList<>(f.children);
 		} else {
@@ -74,13 +72,13 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			this.flows.add(new Flow(flow));
 		}
 		this.layer = layer;
-		//parents = new LinkedList<>();
+		parents = new LinkedList<>();
 		children = new LinkedList<>();
 	}
 	
 	public FlowBoard(LinkedList<FlowBoard> parents, LinkedList<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
 		this.flows = flows;
-		//this.parents = parents;
+		this.parents = parents;
 		this.children = children;
 		this.layer = layer;
 		nodes = new Node[Main.DIM][Main.DIM];
@@ -109,6 +107,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			return flows.equals(f.flows) && /*parents.equals(f.parents) &&*/ children.equals(f.children) && layer.equals(f.layer);
 		}
 		return false;
+	}
+	
+	public int hashCode(){
+		int result = 17;
+		result = 31 * result + nodes.hashCode();
+		return result;
 	}
 	
 	public Flow getOneSimple(){
@@ -279,12 +283,10 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				for (j = 0; j < nodes[0].length; j++) {
 					if (i != nodes.length - 1 && j != nodes[0].length) {
 						if (checkSquare(new Coordinate(i, j), new Coordinate(filter.length, filter[0].length), filter)) {
-							System.out.println(filter.toString() + " ");
 							return true;
 						}
 					} else {
 						if (filterCheck(new Coordinate(i, j))){
-							System.out.println(filter.toString() + " ");
 							return true;
 						}
 					}

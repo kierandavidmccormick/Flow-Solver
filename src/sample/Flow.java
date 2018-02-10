@@ -51,6 +51,15 @@ public class Flow {
 		return false;
 	}
 	
+	public int hashCode(){
+		int result = 17;
+		result = 31 * result + nodes.hashCode();
+		result = 31 * result + endNodes.hashCode();
+		result = 31 * result + workingNodes.hashCode();
+		result = 31 * result + colorCode;
+		return result;
+	}
+	
 	public Flow (Flow f){
 		nodes = new LinkedList<>();
 		for (Node n : f.nodes){

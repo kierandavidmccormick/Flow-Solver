@@ -31,7 +31,7 @@ public class Arbor {
 	public void genLayerDepthFirst(){
 		Layer prev = layers.getLast();
 		LinkedList<FlowBoard> boards = new LinkedList<>(prev.boards);
-		layers.add(new Layer(prev.getNewNodes(boards.get(0))));
+		layers.add(new Layer(prev.getNewNodes(boards.get(0), this)));
 		layers.getLast().addAllCertainMoves();
 	}
 }

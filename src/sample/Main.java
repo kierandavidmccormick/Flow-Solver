@@ -12,8 +12,7 @@ import java.util.ArrayList;
 
 //TODO: implement equals and hashCode properly in all classes
 //TODO: switch to depth-first/beam search
-//TODO: add compressed versions of flowBoards, nodes, colors, etc.
-//TODO: add simple way to add new flowBoards
+//TODO: add compressed versions of flowBoards, nodes, etc.
 
 public class Main extends Application {
 
