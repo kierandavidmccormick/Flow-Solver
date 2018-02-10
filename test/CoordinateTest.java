@@ -1,4 +1,3 @@
-import javafx.scene.paint.Color;
 import org.junit.Before;
 import org.junit.Test;
 import sample.*;
@@ -22,15 +21,15 @@ public class CoordinateTest {
 	@Before
 	public void reset(){
 		Main.DIM = 7;
-		a = new Node(new Coordinate(0, 0), Color.RED, true);
-		b = new Node(new Coordinate(4, 0), Color.RED, true);
-		c = new Node(new Coordinate(0, 1), Color.BLUE, true);
-		d = new Node(new Coordinate(4, 1), Color.BLUE, true);
-		f1 = new Flow(a, b, Color.RED);
-		f2 = new Flow(c, d, Color.BLUE);
+		a = new Node(new Coordinate(0, 0), 0, true);
+		b = new Node(new Coordinate(4, 0), 0, true);
+		c = new Node(new Coordinate(0, 1), 1, true);
+		d = new Node(new Coordinate(4, 1), 1, true);
+		f1 = new Flow(a, b, 0);
+		f2 = new Flow(c, d, 1);
 		flowArrayList.add(f1);
 		flowArrayList.add(f2);
-		fl = new FlowBoard(new LinkedList<FlowBoard>(), new LinkedList<FlowBoard>(), flowArrayList, null);
+		fl = new FlowBoard(new LinkedList<>(), new LinkedList<>(), flowArrayList, null);
 	}
 	
 	@Test
@@ -57,7 +56,7 @@ public class CoordinateTest {
 	
 	@Test
 	public void getNeighborsTest(){
-		ArrayList<Coordinate> neighbors = new Coordinate(1, 0).getNeighbors(true, false, true, null, null, fl);
+		ArrayList<Coordinate> neighbors = new Coordinate(1, 0).getNeighbors(true, false, true, null, (byte)-1, fl);
 		assert neighbors.size() == 3;
 	}
 }

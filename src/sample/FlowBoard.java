@@ -1,11 +1,8 @@
 package sample;
 
-import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Collection;
 
 /**
  * Created by kieranmccormick on 12/26/17.
@@ -21,7 +18,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		nodes = new Node[Main.DIM][Main.DIM];
 		for(int i = 0; i < Main.DIM; i++){
 			for (int j = 0; j < Main.DIM; j++){
-				nodes[i][j] = new Node(new Coordinate(i, j), null);
+				nodes[i][j] = new Node(new Coordinate(i, j), (byte)-1);
 			}
 		}
 		LinkedList<Flow> newFlows = new LinkedList<>();
@@ -29,11 +26,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		for (int i = 0; i < locArgs.length; i+=4){
 			Coordinate c1 = new Coordinate(locArgs[i], locArgs[i+1]);
 			Coordinate c2 = new Coordinate(locArgs[i+2], locArgs[i+3]);
-			Node n1 = new Node(c1, ColorSet.colorArray[i/4], true, false);
-			Node n2 = new Node(c2, ColorSet.colorArray[i/4], true, false);
+			Node n1 = new Node(c1, (byte)(i/4), true, false);
+			Node n2 = new Node(c2, (byte)(i/4), true, false);
 			nodes[c1.x][c1.y] = n1;
 			nodes[c2.x][c2.y] = n2;
-			newFlows.add(new Flow(n1, n2, ColorSet.colorArray[i/4]));
+			newFlows.add(new Flow(n1, n2, (byte)(i/4)));
 		}
 		flows = new ArrayList<>(newFlows);
 	}
@@ -89,7 +86,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		nodes = new Node[Main.DIM][Main.DIM];
 		for(int i = 0; i < Main.DIM; i++){
 			for (int j = 0; j < Main.DIM; j++){
-				nodes[i][j] = new Node(new Coordinate(i, j), null);
+				nodes[i][j] = new Node(new Coordinate(i, j), (byte)-1);
 			}
 		}
 		for (Flow f : flows){
@@ -135,12 +132,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		HashSet<Coordinate> neighbors = new HashSet<>();
 		for (Flow flow : flows){
 			for (Node node : flow.workingNodes){
-				ArrayList<Coordinate> n = node.loc.getNeighbors(true, false, false, null, null, this);
+				ArrayList<Coordinate> n = node.loc.getNeighbors(true, false, false, null, (byte)-1, this);
 				neighbors.addAll(n);
 			}
 		}
 		for (Coordinate c : neighbors){
-			for (Color color : c.getNeighborColors(false, false, false, null, null, this)){
+			for (byte color : c.getNeighborColors(false, false, false, null, (byte)-1, this)){
 				FlowBoard newBoard = new FlowBoard(this.nodes, this.flows, this.layer);
 				if (!newBoard.getFlow(color).isSolved) {
 					newBoard.addNode(new Node(c, color, false, false), newBoard.getFlow(color));
@@ -158,7 +155,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		LinkedList<Node> nodes = new LinkedList<>();
 		for (Flow f : flows){
 			for (Node n : f.workingNodes){
-				ArrayList<Coordinate> neighborCoordinates = n.loc.getNeighbors(true, false, false, false, null, this);
+				ArrayList<Coordinate> neighborCoordinates = n.loc.getNeighbors(true, false, false, false, (byte)-1, this);
 				if (neighborCoordinates.size() == 1){
 					nodes.add(n);
 					break;
@@ -166,11 +163,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		for (Node n : nodes){
-			ArrayList<Coordinate> neighbors = n.loc.getNeighbors(true, false, false, false, null, this);
+			ArrayList<Coordinate> neighbors = n.loc.getNeighbors(true, false, false, false, (byte)(-1), this);
 			if (neighbors.size() == 1) {
-				Flow f = getFlow(n.col);
+				Flow f = getFlow(n.colorCode);
 				//f.resolveSolved(this);
-				addNode(new Node(neighbors.get(0), n.col, false, false), f);
+				addNode(new Node(neighbors.get(0), n.colorCode, false, false), f);
 			}
 			addedNode = true;
 		}
@@ -187,12 +184,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			for (Node n : f.workingNodes){
 				ArrayList<Coordinate> neighborCoordinates = n.loc.getNeighbors(true, false, false, false, null, this);
 				if (neighborCoordinates.size() == 1){
-					node = new Node(neighborCoordinates.get(0), f.color, false, false);
+					node = new Node(neighborCoordinates.get(0), f.colorCode, false, false);
 				}
 			}
 		}
 		if (node != null) {
-			Flow f = getFlow(node.col);
+			Flow f = getFlow(node.colorCode);
 			addNode(node, f);
 			f.resolveSolved(this);
 			if (rec){
@@ -223,7 +220,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			} else {
 				newF.priorityRating /= 2;
 			}
-			newF.addNext(new Node(c, n.col, false, false), n, getFlow(n.col));
+			newF.addNext(new Node(c, n.colorCode, false, false), n, getFlow(n.colorCode));
 			addChild(newF);
 			addedChild = true;
 		}
@@ -311,11 +308,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public Boolean checkSquare(Coordinate c, Coordinate offset, int[][] filter){
-		Color compColor = nodes[c.x][c.y].col;
+		byte compColor = nodes[c.x][c.y].colorCode;
 		for (int i = 0; i < filter.length; i++){
 			for (int j = 0; j < filter[0].length; j++){
 				Coordinate n = new Coordinate(c.x - offset.x + i, c.y - offset.y + j);
-				if (filter != Filter.BLOCKFILTER || (n.isInBounds() && nodes[n.x][n.y].col != null && nodes[n.x][n.y].col.equals(compColor))) {
+				if (filter != Filter.BLOCKFILTER || (n.isInBounds() && nodes[n.x][n.y].colorCode != -1 && nodes[n.x][n.y].colorCode == compColor)) {
 					if (!n.checkSquare(this, filter[i][j])) {
 						return false;
 					}
@@ -448,12 +445,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	
 	public void removeNode(Node n, Flow f){
 		f.removeNode(n);
-		nodes[n.loc.x][n.loc.y] = new Node(new Coordinate(n.loc.x, n.loc.y), null);
+		nodes[n.loc.x][n.loc.y] = new Node(new Coordinate(n.loc.x, n.loc.y), (byte)-1);
 	}
 	
-	public Flow getFlow(Color c){
+	public Flow getFlow(byte c){
 		for (Flow f : flows) {
-			if (f.color.equals(c)){
+			if (f.colorCode == c){
 				return f;
 			}
 		}

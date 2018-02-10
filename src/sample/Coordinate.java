@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -106,12 +104,12 @@ public class Coordinate extends Object {
 		return d;
 	}
 	
-	public ArrayList<Coordinate> getNeighbors(Boolean empty, Boolean edge, Boolean allowCorner, Boolean solved, Color color, FlowBoard f){
+	public ArrayList<Coordinate> getNeighbors(Boolean empty, Boolean edge, Boolean allowCorner, Boolean solved, byte color, FlowBoard f){
 		ArrayList<Coordinate> validNeighbors = new ArrayList<>(allowCorner ? 8 : 4);
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				Coordinate next = addVal(new Coordinate(i, j));
-				if (next.isInBounds() && !next.equals(this) && (!empty || next.isEmpty(f)) && (!edge || next.isOnEdge(f)) && (allowCorner || Math.abs(i) + Math.abs(j) < 2) && (solved == null || f.nodes[next.x][next.y].isSolved == solved) && (color == null || color.equals(f.nodes[next.x][next.y].col))) {
+				if (next.isInBounds() && !next.equals(this) && (!empty || next.isEmpty(f)) && (!edge || next.isOnEdge(f)) && (allowCorner || Math.abs(i) + Math.abs(j) < 2) && (solved == null || f.nodes[next.x][next.y].isSolved == solved) && (color == -1 || color == f.nodes[next.x][next.y].colorCode)) {
 					validNeighbors.add(next);
 				}
 			}
@@ -119,12 +117,12 @@ public class Coordinate extends Object {
 		return validNeighbors;
 	}
 	
-	public LinkedList<Color> getNeighborColors(Boolean empty, Boolean edge, Boolean allowCorner, Boolean solved, Color color, FlowBoard f){
+	public LinkedList<Byte> getNeighborColors(Boolean empty, Boolean edge, Boolean allowCorner, Boolean solved, byte color, FlowBoard f){
 		ArrayList<Coordinate> validNeighbors = getNeighbors(empty, edge, allowCorner, solved, color, f);
-		LinkedList<Color> colors = new LinkedList<>();
+		LinkedList<Byte> colors = new LinkedList<>();
 		for (Coordinate c : validNeighbors){
-			if (f.nodes[c.x][c.y].col != null && !colors.contains(f.nodes[c.x][c.y].col)){
-				colors.add(f.nodes[c.x][c.y].col);
+			if (f.nodes[c.x][c.y].colorCode != -1 && !colors.contains(f.nodes[c.x][c.y].colorCode)){
+				colors.add(f.nodes[c.x][c.y].colorCode);
 			}
 		}
 		return colors;
@@ -133,21 +131,21 @@ public class Coordinate extends Object {
 	public Boolean isOnEdge(FlowBoard f){
 		if (x == 0 || y == 0 || x == Main.DIM-1 || y == Main.DIM-1){
 			return true;
-		} else if (f.nodes[x-1][y].col != null && f.nodes[x-1][y].isSolved){
+		} else if (f.nodes[x-1][y].colorCode != -1 && f.nodes[x-1][y].isSolved){
 			return true;
-		} else if (f.nodes[x+1][y].col != null && f.nodes[x+1][y].isSolved){
+		} else if (f.nodes[x+1][y].colorCode != -1 && f.nodes[x+1][y].isSolved){
 			return true;
-		} else if (f.nodes[x][y-1].col != null && f.nodes[x][y-1].isSolved){
+		} else if (f.nodes[x][y-1].colorCode != -1 && f.nodes[x][y-1].isSolved){
 			return true;
-		} else if (f.nodes[x][y+1].col != null && f.nodes[x][y+1].isSolved){
+		} else if (f.nodes[x][y+1].colorCode != -1 && f.nodes[x][y+1].isSolved){
 			return true;
-		} else if (f.nodes[x-1][y-1].col != null && f.nodes[x-1][y-1].isSolved){
+		} else if (f.nodes[x-1][y-1].colorCode != -1 && f.nodes[x-1][y-1].isSolved){
 			return true;
-		} else if (f.nodes[x-1][y+1].col != null && f.nodes[x-1][y+1].isSolved){
+		} else if (f.nodes[x-1][y+1].colorCode != -1 && f.nodes[x-1][y+1].isSolved){
 			return true;
-		} else if (f.nodes[x+1][y-1].col != null && f.nodes[x+1][y-1].isSolved){
+		} else if (f.nodes[x+1][y-1].colorCode != -1 && f.nodes[x+1][y-1].isSolved){
 			return true;
-		} else if (f.nodes[x+1][y+1].col != null && f.nodes[x+1][y+1].isSolved){
+		} else if (f.nodes[x+1][y+1].colorCode != -1 && f.nodes[x+1][y+1].isSolved){
 			return true;
 		}
 		return false;
@@ -158,7 +156,7 @@ public class Coordinate extends Object {
 	}
 	
 	public Boolean isEmpty(FlowBoard f){
-		return f.nodes[x][y] == null || f.nodes[x][y].col == null;
+		return f.nodes[x][y] == null || f.nodes[x][y].colorCode == -1;
 	}
 	
 	public static Direction turnRight(Direction d){

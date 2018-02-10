@@ -1,39 +1,37 @@
 package sample;
 
-import javafx.scene.paint.Color;
-
 /**
  * Created by kieranmccormick on 12/26/17.
  */
 public class Node {
 	public Coordinate loc;
-	public Color col;
+	public byte colorCode;
 	public boolean isSolved;
 	public boolean isEnd;
 	
-	public Node(Coordinate coordinate, Color color, Boolean isEnd, Boolean isSolved){
+	public Node(Coordinate coordinate, int color, Boolean isEnd, Boolean isSolved){
 		loc = coordinate;
-		col = color;
+		colorCode = (byte)color;
 		this.isSolved = isSolved;
 		this.isEnd = isEnd;
 	}
-	public Node(Coordinate coordinate, Color color, boolean isEnd){this(coordinate, color, isEnd, false);}
-	public Node(Coordinate coordinate, Color color){
+	public Node(Coordinate coordinate, int color, boolean isEnd){this(coordinate, color, isEnd, false);}
+	public Node(Coordinate coordinate, int color){
 		this(coordinate, color, true);
 	}
 	public Node(Node n){
 		loc = new Coordinate(n.loc);
-		if (n.col != null) {
-			col = new Color(n.col.getRed(), n.col.getGreen(), n.col.getBlue(), n.col.getOpacity());
+		if (n.colorCode != -1) {
+			colorCode = n.colorCode;
 		} else {
-			col = null;
+			colorCode = -1;
 		}
 		isSolved = n.isSolved;
 		isEnd = n.isEnd;
 	}
 	
 	public String toString(){
-		return "Loc: " + loc.toString() + " Col: " + col.toString() + " isSolved:  " + isSolved + " isEnd: " + isEnd;
+		return "Loc: " + loc.toString() + " Col: " + ColorSet.colorNames[colorCode] + " isSolved:  " + isSolved + " isEnd: " + isEnd;
 	}
 	
 	public boolean equals(Object o) {
@@ -41,7 +39,7 @@ public class Node {
 			return true;
 		} else if (o instanceof Node) {
 			Node n = (Node)o;
-			return loc.equals(n.loc) && col.equals(n.col) && isSolved == n.isSolved && isEnd == n.isEnd;
+			return loc.equals(n.loc) && colorCode == n.colorCode && isSolved == n.isSolved && isEnd == n.isEnd;
 		}
 		return false;
 	}

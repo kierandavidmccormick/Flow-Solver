@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -12,10 +10,10 @@ public class Flow {
 	public LinkedList<Node> nodes;
 	public LinkedList<Node> endNodes;
 	public LinkedList<Node> workingNodes;
-	public Color color;
+	public byte colorCode;
 	public boolean isSolved;
 	
-	public Flow(LinkedList nodes, Node sNode, Node eNode, Color color){
+	public Flow(LinkedList nodes, Node sNode, Node eNode, int colorCode){
 		this.nodes = nodes;
 		endNodes = new LinkedList<>();
 		workingNodes = new LinkedList<>();
@@ -29,11 +27,11 @@ public class Flow {
 		if (!nodes.contains(eNode)) {
 			nodes.add(eNode);
 		}
-		this.color = color;
+		this.colorCode = (byte)colorCode;
 	}
 	
-	public Flow(Node sNode, Node eNode, Color color){
-		this(new LinkedList(), sNode, eNode, color);
+	public Flow(Node sNode, Node eNode, int colorCode){
+		this(new LinkedList(), sNode, eNode, colorCode);
 		if (!nodes.contains(sNode)) {
 			nodes.add(sNode);
 		}
@@ -48,7 +46,7 @@ public class Flow {
 		}
 		if (o instanceof Flow){
 			Flow f = (Flow)o;
-			return nodes.equals(f.nodes) && endNodes.equals(f.endNodes) && workingNodes.equals(f.workingNodes) && color.equals(f.color);
+			return nodes.equals(f.nodes) && endNodes.equals(f.endNodes) && workingNodes.equals(f.workingNodes) && colorCode == f.colorCode;
 		}
 		return false;
 	}
@@ -66,7 +64,7 @@ public class Flow {
 		for (Node n : f.workingNodes){
 			workingNodes.add(new Node(n));
 		}
-		color = new Color(f.color.getRed(), f.color.getGreen(), f.color.getBlue(), f.color.getOpacity());
+		colorCode = f.colorCode;
 		isSolved = f.isSolved;
 	}
 	
@@ -75,7 +73,7 @@ public class Flow {
 			System.err.println("****** ATTEMPTED TO ILLEGALLY ADD NODE");
 		}
 		nodes.add(n);
-		ArrayList<Coordinate> neighbors = n.loc.getNeighbors(false, false, false, false, n.col, f);
+		ArrayList<Coordinate> neighbors = n.loc.getNeighbors(false, false, false, false, n.colorCode, f);
 		if (workingNodes.size() == 0){
 			int i = 0;
 		}
@@ -110,7 +108,7 @@ public class Flow {
 	
 	public boolean checkSolved(FlowBoard f) {
 		//try {
-			return isSolved || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.color, f).contains(workingNodes.get(1).loc);
+			return isSolved || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.colorCode, f).contains(workingNodes.get(1).loc);
 		//} catch (Exception e){
 		//	int i = 0;
 		//	return false;

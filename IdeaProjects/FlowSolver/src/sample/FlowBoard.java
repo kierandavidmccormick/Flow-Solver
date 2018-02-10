@@ -167,7 +167,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			} else {
 				newF.priorityRating /= 2;
 			}
-			newF.addNext(new Node(c, n.col, false, false), n, getFlow(n.col));
+			newF.addNext(new Node(c, n.colorCode, false, false), n, getFlow(n.colorCode));
 			addChild(newF);
 			addedChild = true;
 		}

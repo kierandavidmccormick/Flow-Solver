@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.scene.control.Alert;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -10,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 //TODO: implement equals and hashCode properly in all classes
 //TODO: switch to depth-first/beam search
@@ -118,8 +116,8 @@ public class Main extends Application {
     public void setSquareArray(FlowBoard f){
 	    for (int i = 0; i < DIM; i++) {
 		    for (int j = 0; j < DIM; j++) {
-		    	if (f.nodes[i][j].col != null) {
-				    squareArray[i][j].setFill(f.nodes[i][j].col);
+		    	if (f.nodes[i][j].colorCode != -1) {
+				    squareArray[i][j].setFill(ColorSet.colorArray[f.nodes[i][j].colorCode]);
 			    } else {
 				    squareArray[i][j].setFill(Color.BLACK);
 			    }
