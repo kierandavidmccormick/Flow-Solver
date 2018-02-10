@@ -12,7 +12,7 @@ public enum Direction {
 		this.x = x;
 		this.y = y;
 	}
-	public  Coordinate toCoordinate(){
+	public Coordinate toCoordinate(){
 		return new Coordinate(x, y);
 	}
 }

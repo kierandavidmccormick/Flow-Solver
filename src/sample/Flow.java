@@ -23,13 +23,23 @@ public class Flow {
 		this.endNodes.add(eNode);
 		this.workingNodes.add(sNode);
 		this.workingNodes.add(eNode);
+		if (!nodes.contains(sNode)) {
+			nodes.add(sNode);
+		}
+		if (!nodes.contains(eNode)) {
+			nodes.add(eNode);
+		}
 		this.color = color;
 	}
 	
 	public Flow(Node sNode, Node eNode, Color color){
 		this(new LinkedList(), sNode, eNode, color);
-		nodes.add(sNode);
-		nodes.add(eNode);
+		if (!nodes.contains(sNode)) {
+			nodes.add(sNode);
+		}
+		if (!nodes.contains(eNode)) {
+			nodes.add(eNode);
+		}
 	}
 	
 	public boolean equals(Object o){
@@ -57,16 +67,29 @@ public class Flow {
 			workingNodes.add(new Node(n));
 		}
 		color = new Color(f.color.getRed(), f.color.getGreen(), f.color.getBlue(), f.color.getOpacity());
+		isSolved = f.isSolved;
 	}
 	
 	public void addNode(Node n, FlowBoard f){
+		if (isSolved){
+			System.err.println("****** ATTEMPTED TO ILLEGALLY ADD NODE");
+		}
 		nodes.add(n);
 		ArrayList<Coordinate> neighbors = n.loc.getNeighbors(false, false, false, false, n.col, f);
+		if (workingNodes.size() == 0){
+			int i = 0;
+		}
 		for (Coordinate c : neighbors){
 			workingNodes.remove(f.nodes[c.x][c.y]);
 			workingNodes.add(n);
+			if (workingNodes.size() == 0){
+				int i = 0;
+			}
 			f.nodes[c.x][c.y].isSolved = true;
 			//NOTE: must set isSolved status of new node at node constructor
+		}
+		if (workingNodes.size() == 0){
+			int i = 0;
 		}
 		resolveSolved(f);
 	}
@@ -86,7 +109,12 @@ public class Flow {
 	}
 	
 	public boolean checkSolved(FlowBoard f) {
-		return isSolved || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.color, f).contains(workingNodes.get(1).loc);
+		//try {
+			return isSolved || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.color, f).contains(workingNodes.get(1).loc);
+		//} catch (Exception e){
+		//	int i = 0;
+		//	return false;
+		//}
 	}
 	
 	public void finish(){

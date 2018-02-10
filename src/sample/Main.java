@@ -19,7 +19,7 @@ import java.util.LinkedList;
 
 public class Main extends Application {
 
-	public static int DIM = 7;
+	public static int DIM = 9;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
@@ -32,16 +32,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("FlowSolver");
-	    ArrayList<Flow> flowList = new ArrayList<>(7);
-	    flowList.add(new Flow(new Node(new Coordinate(0, 0), Color.RED), new Node(new Coordinate(6, 0), Color.RED), Color.RED));
-	    flowList.add(new Flow(new Node(new Coordinate(0, 1), Color.BLUE), new Node(new Coordinate(6, 6), Color.BLUE), Color.BLUE));
-	    flowList.add(new Flow(new Node(new Coordinate(1, 1), Color.GREEN), new Node(new Coordinate(6, 1), Color.GREEN), Color.GREEN));
-	    flowList.add(new Flow(new Node(new Coordinate(1, 2), Color.ORANGE), new Node(new Coordinate(6, 2), Color.ORANGE), Color.ORANGE));
-	    flowList.add(new Flow(new Node(new Coordinate(1, 3), Color.PURPLE), new Node(new Coordinate(6, 3), Color.PURPLE), Color.PURPLE));
-	    flowList.add(new Flow(new Node(new Coordinate(1, 4), Color.DARKGRAY), new Node(new Coordinate(6, 4), Color.DARKGRAY), Color.DARKGRAY));
-	    flowList.add(new Flow(new Node(new Coordinate(1, 5), Color.YELLOW), new Node(new Coordinate(6, 5), Color.YELLOW), Color.YELLOW));
-	    FlowBoard fl = new FlowBoard(new LinkedList<>(), new LinkedList<>(), flowList, null);
-        incRectangle.setFill(Color.RED);
+        FlowBoard fl = new FlowBoard(8, 2, 0, 7, 8, 4, 0, 8, 4, 4, 4, 7, 6, 5, 3, 6, 2, 8, 6, 7, 3, 7, 5, 8);
+	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
         runRectangle.setFill(Color.BROWN);
         incRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
@@ -63,14 +55,16 @@ public class Main extends Application {
 	    		squareArray[i][j] = new Rectangle(i * 50, j * 50, 50, 50);
 		    }
 	    }
+	    fl.fatalError();
 	    long t1 = System.currentTimeMillis();
 	    Arbor ar = new Arbor(fl);
-	    /*
+	    fl.addCertainMoves(true);
+	    
 	    while (ar.layers.getLast().boards.size() > 0){
 		    ar.genLayerDepthFirst();
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 	    }
-	    */
+	    
 	    /*
 	    ar.genLayer();
 	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
@@ -122,8 +116,8 @@ public class Main extends Application {
     }
     
     public void setSquareArray(FlowBoard f){
-	    for (int i = 0; i < 7; i++) {
-		    for (int j = 0; j < 7; j++) {
+	    for (int i = 0; i < DIM; i++) {
+		    for (int j = 0; j < DIM; j++) {
 		    	if (f.nodes[i][j].col != null) {
 				    squareArray[i][j].setFill(f.nodes[i][j].col);
 			    } else {

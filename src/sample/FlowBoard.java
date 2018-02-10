@@ -17,6 +17,27 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	LinkedList<FlowBoard> children;
 	Layer layer;
 	
+	public FlowBoard(int... locArgs){
+		nodes = new Node[Main.DIM][Main.DIM];
+		for(int i = 0; i < Main.DIM; i++){
+			for (int j = 0; j < Main.DIM; j++){
+				nodes[i][j] = new Node(new Coordinate(i, j), null);
+			}
+		}
+		LinkedList<Flow> newFlows = new LinkedList<>();
+		children = new LinkedList<>();
+		for (int i = 0; i < locArgs.length; i+=4){
+			Coordinate c1 = new Coordinate(locArgs[i], locArgs[i+1]);
+			Coordinate c2 = new Coordinate(locArgs[i+2], locArgs[i+3]);
+			Node n1 = new Node(c1, ColorSet.colorArray[i/4], true, false);
+			Node n2 = new Node(c2, ColorSet.colorArray[i/4], true, false);
+			nodes[c1.x][c1.y] = n1;
+			nodes[c2.x][c2.y] = n2;
+			newFlows.add(new Flow(n1, n2, ColorSet.colorArray[i/4]));
+		}
+		flows = new ArrayList<>(newFlows);
+	}
+	
 	public FlowBoard(FlowBoard f){
 		nodes = new Node[f.nodes.length][f.nodes[0].length];
 		for (int i = 0; i < f.nodes.length; i++){
@@ -39,6 +60,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		layer = f.layer;
 		flows = new ArrayList<>(f.flows.size());
 		for (Flow flow : f.flows){
+			
 			flows.add(new Flow(flow));
 		}
 	}
@@ -102,7 +124,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public int compareTo(FlowBoard f){
-		if (equals(this)){
+		if (equals(f)){
 			return 0;
 		}
 		return Integer.valueOf(this.toString()) > Integer.valueOf(this.toString()) ? 1 : 0;
@@ -112,19 +134,17 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		HashSet<FlowBoard> children = new HashSet<>();
 		HashSet<Coordinate> neighbors = new HashSet<>();
 		for (Flow flow : flows){
-			for (Node node : flow.nodes){
-				if (!node.isSolved){
-					ArrayList<Coordinate> n = node.loc.getNeighbors(true, false, false, null, null, this);
-					neighbors.addAll(n);
-					for (Coordinate c : n){
-					}
-				}
+			for (Node node : flow.workingNodes){
+				ArrayList<Coordinate> n = node.loc.getNeighbors(true, false, false, null, null, this);
+				neighbors.addAll(n);
 			}
 		}
 		for (Coordinate c : neighbors){
 			for (Color color : c.getNeighborColors(false, false, false, null, null, this)){
 				FlowBoard newBoard = new FlowBoard(this.nodes, this.flows, this.layer);
-				newBoard.addNode(new Node(c, color, false, false), newBoard.getFlow(color));
+				if (!newBoard.getFlow(color).isSolved) {
+					newBoard.addNode(new Node(c, color, false, false), newBoard.getFlow(color));
+				}
 				if (!newBoard.fatalError(c)){
 					children.add(newBoard);
 				}
@@ -239,7 +259,6 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	public Boolean fatalError(){
 		for (Flow flow : flows) {
 			if (flow.isSolved || !connected(flow.workingNodes.get(0), flow.workingNodes.get(1))){
-				System.out.println(flow.workingNodes.get(0).loc.toString() + " " + flow.workingNodes.get(1).loc.toString());
 				return true;
 			}
 		}
@@ -263,10 +282,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				for (j = 0; j < nodes[0].length; j++) {
 					if (i != nodes.length - 1 && j != nodes[0].length) {
 						if (checkSquare(new Coordinate(i, j), new Coordinate(filter.length, filter[0].length), filter)) {
+							System.out.println(filter.toString() + " ");
 							return true;
 						}
 					} else {
 						if (filterCheck(new Coordinate(i, j))){
+							System.out.println(filter.toString() + " ");
 							return true;
 						}
 					}
@@ -325,6 +346,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				}
 			}
 		}
+		/* old method, does not work
 		while(unConnectedCoordinates.size() > 0){
 			for (Flow flow : flows){
 				if (!flow.isSolved) {
@@ -336,6 +358,27 @@ public class FlowBoard implements Comparable<FlowBoard>{
 						return false;
 					}
 				}
+			}
+		}
+		*/
+		for (int i = 0; i < unConnectedCoordinates.size(); i++){
+			boolean isConnected = false;
+			for (Flow flow : flows){
+				if (!flow.isSolved){
+					if (connected(flow.workingNodes.get(0).loc, unConnectedCoordinates.get(0)) && connected(flow.workingNodes.get(1).loc, unConnectedCoordinates.get(0))) {
+						unConnectedCoordinates.removeAll(getConnectedCoordinates(unConnectedCoordinates.get(0)));
+						if (unConnectedCoordinates.size() == 0){
+							return true;
+						}
+						unConnectedCoordinates.remove(0);
+						i = 0;
+						isConnected = true;
+						break;
+					}
+				}
+			}
+			if (!isConnected){
+				return false;
 			}
 		}
 		return true;
@@ -378,11 +421,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			edgeCoordinates.remove(0);
 			for (Direction d : Direction.directions) {
 				Coordinate c2 = c.addVal(d.toCoordinate());
-				if (c2.isInBounds() && c2.isEmpty(this) && !inValidNodes[c2.x][c2.y]){
+				if (c2.equals(end)){
+					return true;
+				} else if (c2.isInBounds() && c2.isEmpty(this) && !inValidNodes[c2.x][c2.y]) {
 					edgeCoordinates.add(c2);
 					inValidNodes[c2.x][c2.y] = true;
-				} else if (c2.equals(end)) {
-					return true;
 				}
 			}
 		}

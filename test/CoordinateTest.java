@@ -21,6 +21,7 @@ public class CoordinateTest {
 	
 	@Before
 	public void reset(){
+		Main.DIM = 7;
 		a = new Node(new Coordinate(0, 0), Color.RED, true);
 		b = new Node(new Coordinate(4, 0), Color.RED, true);
 		c = new Node(new Coordinate(0, 1), Color.BLUE, true);

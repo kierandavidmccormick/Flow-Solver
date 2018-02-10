@@ -50,4 +50,10 @@ public class Layer {
 		}
 		return newNodes;
 	}
+	
+	public void addAllCertainMoves(){
+		for (FlowBoard f : boards){
+			f.addCertainMoves(true);
+		}
+	}
 }
