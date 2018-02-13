@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Arbor.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Arbor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Coordinate$1.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Coordinate$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Coordinate.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Coordinate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Flow.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Flow.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/FlowBoard.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/FlowBoard.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Layer.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Layer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Main.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/FlowSolver/sample/Node.class" afterPath="$PROJECT_DIR$/out/production/FlowSolver/sample/Node.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Arbor.java" afterPath="$PROJECT_DIR$/src/sample/Arbor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Flow.java" afterPath="$PROJECT_DIR$/src/sample/Flow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/FlowBoard.java" afterPath="$PROJECT_DIR$/src/sample/FlowBoard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Layer.java" afterPath="$PROJECT_DIR$/src/sample/Layer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Node.java" afterPath="$PROJECT_DIR$/src/sample/Node.java" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -94,8 +84,8 @@
             <file leaf-file-name="FlowBoard.java" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/src/sample/FlowBoard.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="105">
-                    <caret line="142" column="39" lean-forward="false" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
+                  <state relative-caret-position="547">
+                    <caret line="114" column="22" lean-forward="true" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="22" />
                     <folding>
                       <element signature="imports" expanded="true" />
                     </folding>
@@ -117,8 +107,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="14" column="58" lean-forward="false" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
+            <state relative-caret-position="675">
+              <caret line="60" column="80" lean-forward="true" selection-start-line="60" selection-start-column="80" selection-end-line="60" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -139,8 +129,8 @@
       <file leaf-file-name="Layer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+            <state relative-caret-position="870">
+              <caret line="62" column="13" lean-forward="true" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -258,12 +248,12 @@
         <option value="$PROJECT_DIR$/test/FlowBoardTest.java" />
         <option value="$PROJECT_DIR$/test/CoordinateTest.java" />
         <option value="$PROJECT_DIR$/src/sample/Coordinate.java" />
-        <option value="$PROJECT_DIR$/src/sample/Main.java" />
-        <option value="$PROJECT_DIR$/src/sample/FlowBoard.java" />
         <option value="$PROJECT_DIR$/src/sample/Node.java" />
         <option value="$PROJECT_DIR$/src/sample/Flow.java" />
         <option value="$PROJECT_DIR$/src/sample/Layer.java" />
         <option value="$PROJECT_DIR$/src/sample/Arbor.java" />
+        <option value="$PROJECT_DIR$/src/sample/FlowBoard.java" />
+        <option value="$PROJECT_DIR$/src/sample/Main.java" />
       </list>
     </option>
   </component>
@@ -374,7 +364,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.FlowBoardTest.connectedTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="FlowBoardTest.allNodesReachableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="FlowSolver" />
@@ -749,13 +739,29 @@
       <patterns />
       <method />
     </configuration>
-    <list size="6">
+    <configuration default="false" name="Main" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sample.Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="FlowSolver" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="JUnit.Test" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.FlowBoardTest.connectedTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.FlowBoardTest.allNodesReachableTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.FlowBoardTest.checkSquareTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.CoordinateTest.isOnEdgeTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.CoordinateTest.getNeighborsTest" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Main" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.FlowBoardTest.allNodesReachableTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.FlowBoardTest.checkSquareTest" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.CoordinateTest.isOnEdgeTest" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.CoordinateTest.getNeighborsTest" />
     </list>
     <recent_temporary>
       <list size="4">
@@ -782,6 +788,14 @@
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
     </task>
+    <task id="LOCAL-00001" summary="&quot;misc.&quot;">
+      <created>1518287801409</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1518287801409</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -841,7 +855,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32872504" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
@@ -875,10 +889,12 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <MESSAGE value="&quot;misc.&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;misc.&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="187" />
+      <option name="time" value="188" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -1135,6 +1151,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="179" column="0" lean-forward="true" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1263,14 +1280,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Layer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Flow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="870">
@@ -1291,20 +1300,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/FlowBoard.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/Layer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="142" column="39" lean-forward="false" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
+        <state relative-caret-position="870">
+          <caret line="62" column="13" lean-forward="true" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="60" column="80" lean-forward="true" selection-start-line="60" selection-start-column="80" selection-end-line="60" selection-end-column="80" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/FlowBoard.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="14" column="58" lean-forward="false" selection-start-line="14" selection-start-column="58" selection-end-line="14" selection-end-column="58" />
+        <state relative-caret-position="547">
+          <caret line="114" column="22" lean-forward="true" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

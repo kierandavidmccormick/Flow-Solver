@@ -259,7 +259,8 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	*/
 	public Boolean fatalError(){
 		for (Flow flow : flows) {
-			if (flow.isSolved || !connected(flow.workingNodes.get(0), flow.workingNodes.get(1))){
+			if (!flow.isSolved && !connected(flow.workingNodes.get(0), flow.workingNodes.get(1))){
+				System.out.println("Flow " + ColorSet.colorNames[flow.colorCode] + " not connected");
 				return true;
 			}
 		}

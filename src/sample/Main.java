@@ -7,8 +7,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import sun.plugin2.os.windows.FLASHWINFO;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 //TODO: implement equals and hashCode properly in all classes
 //TODO: switch to depth-first/beam search
@@ -44,7 +46,7 @@ public class Main extends Application {
         	updateGUI();
         });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("Result: " + flowBoards.get(flowBoardIndex).fatalError());
+        	System.out.println("Result: " + flowBoards.get(flowBoardIndex).fatalError() + " allNodesReachable: " + flowBoards.get(flowBoardIndex).allNodesReachable() + " globalFilterCheck: " + flowBoards.get(flowBoardIndex).globalFilterCheck());
 	        updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){
@@ -56,7 +58,10 @@ public class Main extends Application {
 	    long t1 = System.currentTimeMillis();
 	    Arbor ar = new Arbor(fl);
 	    fl.addCertainMoves(true);
-	    
+	    System.out.println(ar.layers.get(0).boards.contains(new FlowBoard(fl)));
+	    LinkedList<FlowBoard> fasdf = new LinkedList<>();
+	    fasdf.add(fl);
+	    System.out.println(fasdf.contains(new FlowBoard(fl)));
 	    while (ar.layers.getLast().boards.size() > 0){
 		    ar.genLayerDepthFirst();
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
