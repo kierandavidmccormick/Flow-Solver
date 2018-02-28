@@ -7,9 +7,11 @@ import java.util.*;
  */
 public class Layer {
 	HashSet<FlowBoard> boards;
+	int viewIndex;
 	
 	public Layer(){
 		boards = new HashSet<>();
+		viewIndex = 0;
 	}
 	
 	public Layer(FlowBoard f){
@@ -23,18 +25,31 @@ public class Layer {
 		for (FlowBoard f : boards){
 			f.layer = this;
 		}
+		viewIndex = 0;
 	}
 	
+	public void changeViewIndex(int change){
+		viewIndex += change;
+		while (viewIndex < 0){
+			viewIndex += boards.size();
+		}
+		viewIndex %= boards.size();
+	}
+	
+	public ArrayList<FlowBoard> getBoardsIterable(){
+		return new ArrayList<>(boards);
+	}
+	/*
 	public void delete(){
 		boards.clear();
 	}
-	
-	public HashSet<FlowBoard> getNewNodes(){
+	*/
+	public HashSet<FlowBoard> getNewNodes() {
 		HashSet newNodes = new HashSet();
-		for (FlowBoard f: boards){
+		for (FlowBoard f : boards) {
 			ArrayList<FlowBoard> newBoards = f.genChildren();
 			newNodes.addAll(newBoards);
-			for (FlowBoard nb : newBoards){
+			for (FlowBoard nb : newBoards) {
 				//nb.parents.add(f);
 				f.children.add(nb);
 			}
@@ -69,6 +84,16 @@ public class Layer {
 		}
 		*/
 		return newNodes;
+	}
+	
+	//TODO: add handling for adding parent references to nodes already in the arbor
+	public HashSet<FlowBoard> getNewNodes2(FlowBoard f, Arbor ar){
+		HashSet<FlowBoard> newBoards = f.getChildren();
+		for (FlowBoard fl : newBoards){
+			f.children.add(fl);
+			//fl.parents.add(f);
+		}
+		return newBoards;
 	}
 	
 	public void addAllCertainMoves(){

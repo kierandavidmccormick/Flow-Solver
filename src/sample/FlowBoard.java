@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -111,7 +112,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	
 	public int hashCode(){
 		int result = 17;
-		result = 31 * result + nodes.hashCode();
+		result = 31 * result + Arrays.deepHashCode(nodes);
 		return result;
 	}
 	
@@ -152,6 +153,22 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		return new ArrayList<>(children);
+	}
+	
+	public HashSet<FlowBoard> getChildren(){
+		HashSet<FlowBoard> newBoards = new HashSet<>();
+		for (Flow f : flows){
+			for (Node n : f.workingNodes){
+				LinkedList<FlowBoard> newBoardsTemp = n.getBoardChildren(this);
+				if (newBoardsTemp.size() == 1){
+					return new HashSet<>(newBoardsTemp);
+				} else if (newBoardsTemp.size() == 0) {
+					return new HashSet<>(0);
+				}
+				newBoards.addAll(newBoardsTemp);
+			}
+		}
+		return newBoards;
 	}
 	
 	public boolean addCertainMoves(boolean rec){
@@ -440,12 +457,13 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		f.addNode(n, this);
 		nodes[n.loc.x][n.loc.y] = n;
 	}
-	
+	/*
+	//functionality replaced
 	public void addNext(Node n, Node prev, Flow f){
 		addNode(n, f);
 		prev.isSolved = true;
 	}
-	
+	*/
 	public void removeNode(Node n, Flow f){
 		f.removeNode(n);
 		nodes[n.loc.x][n.loc.y] = new Node(new Coordinate(n.loc.x, n.loc.y), (byte)-1);

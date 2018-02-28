@@ -1,5 +1,9 @@
 package sample;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+
 /**
  * Created by kieranmccormick on 12/26/17.
  */
@@ -49,5 +53,17 @@ public class Node {
 		result = 31 * result + loc.hashCode();
 		result = 31 * result + colorCode;
 		return result;
+	}
+	
+	public LinkedList<FlowBoard> getBoardChildren(FlowBoard f){
+		//HashSet<FlowBoard> newBoards = new HashSet<>(endNodes.get(0).loc.getNeighbors(true, false, true, false, (byte)-1, f).size() + endNodes.get(0).loc.getNeighbors(true, false, true, false, (byte)-1, f).size());
+		LinkedList<FlowBoard> newBoards = new LinkedList<>();
+		ArrayList<Coordinate> newNodes = loc.getNeighbors(true, false, false, null, (byte)-1, f);
+		for (Coordinate c : newNodes){
+			FlowBoard newBoard = new FlowBoard(f);
+			newBoard.addNode(new Node(c, colorCode, false, false), f.getFlow(colorCode));
+			newBoards.add(newBoard);
+		}
+		return newBoards;
 	}
 }

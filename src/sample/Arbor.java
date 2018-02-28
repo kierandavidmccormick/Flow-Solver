@@ -9,10 +9,20 @@ import java.util.LinkedList;
 public class Arbor {
 	FlowBoard root;
 	LinkedList<Layer> layers;
+	int viewIndex;
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
 		genLayer(root);
+		viewIndex = 0;
+	}
+	
+	public void changeViewIndex(int change){
+		viewIndex += change;
+		while (viewIndex < 0){
+			viewIndex += layers.size();
+		}
+		viewIndex %= layers.size();
 	}
 	
 	public void genLayer(Collection<FlowBoard> fls){
@@ -28,10 +38,23 @@ public class Arbor {
 		layers.add(new Layer(prev.getNewNodes()));
 	}
 	
-	public void genLayerDepthFirst(){
+	public boolean genLayerDepthFirst(){
 		Layer prev = layers.getLast();
 		LinkedList<FlowBoard> boards = new LinkedList<>(prev.boards);
-		layers.add(new Layer(prev.getNewNodes(boards.get(0), this)));
-		layers.getLast().addAllCertainMoves();
+		Layer n = new Layer(prev.getNewNodes(boards.get(0), this));
+		if (n.boards.size() > 0) {
+			layers.add(n);
+			layers.getLast().addAllCertainMoves();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean genNewLayer(Collection<FlowBoard> collection){
+		if (collection.size() > 0) {
+			layers.add(new Layer(collection));
+			return true;
+		}
+		return false;
 	}
 }

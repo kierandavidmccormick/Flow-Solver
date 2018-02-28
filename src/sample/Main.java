@@ -7,7 +7,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import sun.plugin2.os.windows.FLASHWINFO;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,38 +14,58 @@ import java.util.LinkedList;
 //TODO: implement equals and hashCode properly in all classes
 //TODO: switch to depth-first/beam search
 //TODO: add compressed versions of flowBoards, nodes, etc.
+//TODO: fix creation of boards to respect layer integrity
+//TODO: fix hashCodes of classes containing array elements (?)
+//TODO: fix .contains for flowBoards (?)
+//TODO: fix or replace (probably 2) addCertainNodes
+//TODO: re-add parents
 
 public class Main extends Application {
 
-	public static int DIM = 9;
+	public static int DIM = 10;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle runRectangle = new Rectangle((DIM * 50) / 3, DIM * 50, (DIM * 50) / 3, 50);
-	Group interactables = new Group(incRectangle, decRectangle, runRectangle);
+	Rectangle incRectangle2 = new Rectangle(0, DIM * 50 + 50, (DIM * 50) / 3, 50);
+	Rectangle decRectangle2 = new Rectangle((DIM * 50) / 1.5, DIM * 50 + 50, (DIM * 50) / 3, 50);
+	Group interactables = new Group(incRectangle, decRectangle, runRectangle, incRectangle2, decRectangle2);
 	Rectangle[][] squareArray = new Rectangle[DIM][DIM];
 	Group root = new Group(squares, interactables);
-	ArrayList<FlowBoard> flowBoards = new ArrayList<>();
-	int flowBoardIndex = 0;
+	Arbor ar;
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("FlowSolver");
-        FlowBoard fl = new FlowBoard(8, 2, 0, 7, 8, 4, 0, 8, 4, 4, 4, 7, 6, 5, 3, 6, 2, 8, 6, 7, 3, 7, 5, 8);
+        //FlowBoard fl = new FlowBoard(8, 2, 0, 7, 8, 4, 0, 8, 4, 4, 4, 7, 6, 5, 3, 6, 2, 8, 6, 7, 3, 7, 5, 8);
+	    FlowBoard fl = new FlowBoard(2, 0, 6, 8, 3, 0, 8, 5, 4, 0, 8, 1, 2, 1, 6, 0, 3, 2, 2, 3, 5, 5, 0, 6, 0, 7, 5, 8, 7, 7, 9, 9, 8, 7, 9, 8, 0, 8, 3, 9, 1, 8, 7, 9);
+	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
         runRectangle.setFill(Color.BROWN);
+        incRectangle2.setFill(Color.DARKRED);
+        decRectangle2.setFill(Color.DARKBLUE);
         incRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-	        flowBoardIndex = flowBoardIndex == flowBoards.size() - 1 ? 0 : flowBoardIndex + 1;
-	        System.out.println("Clicked: " + flowBoardIndex);
+	        ar.changeViewIndex(1);
+	        System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
 	        updateGUI();
         });
         decRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	flowBoardIndex = flowBoardIndex == 0 ? flowBoards.size() - 1 : flowBoardIndex - 1;
-	        System.out.println("Clicked: " + flowBoardIndex);
+        	ar.changeViewIndex(-1);
+        	System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
         	updateGUI();
         });
+	    incRectangle2.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+		    ar.layers.get(ar.viewIndex).changeViewIndex(1);
+		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+		    updateGUI();
+	    });
+	    decRectangle2.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+		    ar.layers.get(ar.viewIndex).changeViewIndex(-1);
+		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+		    updateGUI();
+	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("Result: " + flowBoards.get(flowBoardIndex).fatalError() + " allNodesReachable: " + flowBoards.get(flowBoardIndex).allNodesReachable() + " globalFilterCheck: " + flowBoards.get(flowBoardIndex).globalFilterCheck());
+        	System.out.println("Result: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).fatalError() + ", allNodesReachable: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).allNodesReachable() + ", globalFilterCheck: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck());
 	        updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){
@@ -54,19 +73,16 @@ public class Main extends Application {
 	    		squareArray[i][j] = new Rectangle(i * 50, j * 50, 50, 50);
 		    }
 	    }
-	    fl.fatalError();
+	    //fl.fatalError();
 	    long t1 = System.currentTimeMillis();
-	    Arbor ar = new Arbor(fl);
-	    fl.addCertainMoves(true);
+	    //fl.addCertainMoves(true);
 	    System.out.println(ar.layers.get(0).boards.contains(new FlowBoard(fl)));
 	    LinkedList<FlowBoard> fasdf = new LinkedList<>();
 	    fasdf.add(fl);
 	    System.out.println(fasdf.contains(new FlowBoard(fl)));
-	    while (ar.layers.getLast().boards.size() > 0){
-		    ar.genLayerDepthFirst();
+	    while (ar.genLayerDepthFirst()){
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 	    }
-	    
 	    /*
 	    ar.genLayer();
 	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
@@ -85,23 +101,15 @@ public class Main extends Application {
 	    }
 	    */
 	    //ar.genLayersForever();
-	    for (Layer l : ar.layers){
-	    	for (FlowBoard board : l.boards){
-	    		//if (board.children.size() > 0){
-	    			flowBoards.add(board);
-			    //}
-		    }
-	    	//flowBoards.addAll(l.boards);
-	    }
 	    updateGUI();
-	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 50));
+	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
 	    //Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
         //alert.showAndWait();
     }
 	
     public void updateGUI(){
-    	setSquareArray(flowBoards.get(flowBoardIndex));
+    	setSquareArray(ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex));
     	if (squares.getChildren().size() == 0) {
 		    createSquares(squareArray);
 	    }
