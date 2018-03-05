@@ -11,9 +11,10 @@ import java.util.LinkedList;
 public class FlowBoard implements Comparable<FlowBoard>{
 	public Node[][] nodes;
 	ArrayList<Flow> flows;
-	LinkedList<FlowBoard> parents;
-	LinkedList<FlowBoard> children;
+	HashSet<FlowBoard> parents;
+	HashSet<FlowBoard> children;
 	Layer layer;
+	boolean isLeaf;
 	
 	public FlowBoard(int... locArgs){
 		nodes = new Node[Main.DIM][Main.DIM];
@@ -23,7 +24,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		LinkedList<Flow> newFlows = new LinkedList<>();
-		children = new LinkedList<>();
+		children = new HashSet<>();
 		for (int i = 0; i < locArgs.length; i+=4){
 			Coordinate c1 = new Coordinate(locArgs[i], locArgs[i+1]);
 			Coordinate c2 = new Coordinate(locArgs[i+2], locArgs[i+3]);
@@ -34,6 +35,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			newFlows.add(new Flow(n1, n2, (byte)(i/4)));
 		}
 		flows = new ArrayList<>(newFlows);
+		isLeaf = false;
 	}
 	
 	public FlowBoard(FlowBoard f){
@@ -44,12 +46,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		if (f.parents != null) {
-			parents = new LinkedList<>(f.parents);
+			parents = new HashSet<>(f.parents);
 		} else {
 			parents = null;
 		}
 		if (f.children != null) {
-			children = new LinkedList<>(f.children);
+			children = new HashSet<>(f.children);
 		} else {
 			children = null;
 		}
@@ -59,6 +61,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			
 			flows.add(new Flow(flow));
 		}
+		isLeaf = false;
 	}
 	
 	public FlowBoard(Node[][] nodes, ArrayList<Flow> flows, Layer layer){
@@ -73,11 +76,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			this.flows.add(new Flow(flow));
 		}
 		this.layer = layer;
-		parents = new LinkedList<>();
-		children = new LinkedList<>();
+		parents = new HashSet<>();
+		children = new HashSet<>();
+		isLeaf = false;
 	}
 	
-	public FlowBoard(LinkedList<FlowBoard> parents, LinkedList<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
+	public FlowBoard(HashSet<FlowBoard> parents, HashSet<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
 		this.flows = flows;
 		this.parents = parents;
 		this.children = children;
@@ -93,10 +97,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				nodes[n.loc.x][n.loc.y] = n;
 			}
 		}
+		isLeaf = false;
 	}
 	
-	public FlowBoard(LinkedList<FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
-		this(parents, new LinkedList<>(), flows, layer);
+	public FlowBoard(HashSet<FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
+		this(parents, new HashSet<>(), flows, layer);
 	}
 	
 	public boolean equals(Object o){
@@ -155,7 +160,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return new ArrayList<>(children);
 	}
 	
-	public HashSet<FlowBoard> getChildren(){
+	public HashSet<FlowBoard> getApplicableChildren(){
 		HashSet<FlowBoard> newBoards = new HashSet<>();
 		for (Flow f : flows){
 			for (Node n : f.workingNodes){
@@ -169,6 +174,14 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		return newBoards;
+	}
+	
+	public HashSet<FlowBoard> setAsParentOf(HashSet<FlowBoard> fs){
+		children.addAll(fs);
+		for (FlowBoard f : fs){
+			f.parents.add(this);
+		}
+		return fs;
 	}
 	
 	public boolean addCertainMoves(boolean rec){
