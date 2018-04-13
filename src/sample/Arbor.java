@@ -60,15 +60,13 @@ public class Arbor {
 		return false;
 	}
 	
-	public void addNode(int layer, FlowBoard f, boolean addChildren){
-		ArrayList<FlowBoard> ar = new ArrayList<>(1);
-		ar.add(f);
-		addNodes(layer, ar, addChildren);
+	public boolean genNewLayer(FlowBoard f){
+		return layers.add(new Layer(f, this));
 	}
 	
-	public boolean addNodes(int layer, Collection<FlowBoard> f, boolean addChildren){
+	public boolean addNode(int layer, FlowBoard f, boolean addChildren){
 		if (layer < layers.size()){
-			layers.get(layer).boards.addAll(f);
+			layers.get(layer).boards.add(f);
 		} else if (layer == layers.size()){
 			genNewLayer(f);
 		} else {
@@ -76,12 +74,21 @@ public class Arbor {
 			return false;
 		}
 		if (addChildren){
-			HashSet<FlowBoard> newBoards = new HashSet<>();
-			for (FlowBoard fl : f){
-				newBoards.addAll(fl.setAsParentOf(fl.getApplicableChildren()));
+			HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
+			for (FlowBoard fl : newBoards){
+				addNode(layer, fl, newBoards.size() == 1);
 			}
-			genNewLayer(newBoards);
 		}
 		return true;
 	}
+	
+	public boolean addNodes(int layer, Collection<FlowBoard> f, boolean addChildren){
+		for (FlowBoard fl : f){
+			if (!addNode(layer, fl, addChildren)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }

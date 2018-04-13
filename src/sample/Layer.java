@@ -18,13 +18,13 @@ public class Layer {
 	
 	public Layer(FlowBoard f, Arbor ar){
 		this(ar);
-		addNode(f, true);   //TODO: ?
+		ar.addNode(ar.layers.indexOf(this), f, true);   //TODO: ?
 		f.layer = this;
 	}
 	
 	public Layer(Collection<FlowBoard> fls, Arbor ar){
 		this(ar);
-		addNodes(fls, true);    //TODO: ?
+		ar.addNodes(ar.layers.indexOf(this), fls, true);    //TODO: ?
 		for (FlowBoard f : boards){
 			f.layer = this;
 		}
@@ -98,12 +98,15 @@ public class Layer {
 		}
 		return newBoards;
 	}
-	
+	/*
 	public void addNode(FlowBoard f, boolean addChildren){
-		ArrayList<FlowBoard> ar = new ArrayList<>(1);
-		ar.add(f);
-		addNodes(ar, addChildren);
+		boards.add(f);
+		if (addChildren){
+			HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
+			
+		}
 	}
+	
 	//TODO: base addChildren off of individual assessment of flowBoard siblings
 	public void addNodes(Collection<FlowBoard> f, boolean addChildren){
 		boards.addAll(f);
@@ -115,7 +118,7 @@ public class Layer {
 			ar.addNodes(ar.layers.indexOf(this), newBoards, false);
 		}
 	}
-	
+	*/
 	public void addAllCertainMoves(){
 		for (FlowBoard f : boards){
 			f.addCertainMoves(true);
