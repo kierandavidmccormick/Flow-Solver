@@ -490,4 +490,21 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		return null;
 	}
+	
+	public void markAsLeaf(){
+		isLeaf = true;
+		if (parents.size() > 0){
+			for (FlowBoard p : parents){
+				boolean setIsLeaf = true;
+				for (FlowBoard c : p.children){
+					if (c.children.size() > 0 || !c.isLeaf){
+						setIsLeaf = false;
+					}
+				}
+				if (setIsLeaf){
+					p.markAsLeaf();
+				}
+			}
+		}
+	}
 }
