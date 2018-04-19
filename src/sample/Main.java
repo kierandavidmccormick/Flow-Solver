@@ -80,6 +80,7 @@ public class Main extends Application {
 	    LinkedList<FlowBoard> fasdf = new LinkedList<>();
 	    fasdf.add(fl);
 	    System.out.println(fasdf.contains(new FlowBoard(fl)));
+	    /*
 	    while (ar.genLayerDepthFirst()){
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 	    }
@@ -101,6 +102,7 @@ public class Main extends Application {
 	    }
 	    */
 	    //ar.genLayersForever();
+	    ar.genNextNodes();
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();

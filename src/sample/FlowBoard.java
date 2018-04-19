@@ -35,6 +35,8 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			newFlows.add(new Flow(n1, n2, (byte)(i/4)));
 		}
 		flows = new ArrayList<>(newFlows);
+		parents = new HashSet<>(0);
+		parents = new HashSet<>(0);
 		isLeaf = false;
 	}
 	
@@ -48,12 +50,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		if (f.parents != null) {
 			parents = new HashSet<>(f.parents);
 		} else {
-			parents = null;
+			parents = new HashSet<>();
 		}
 		if (f.children != null) {
 			children = new HashSet<>(f.children);
 		} else {
-			children = null;
+			children = new HashSet<>();
 		}
 		layer = f.layer;
 		flows = new ArrayList<>(f.flows.size());
@@ -136,7 +138,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		return Integer.valueOf(this.toString()) > Integer.valueOf(this.toString()) ? 1 : 0;
 	}
-	
+	/*
 	public ArrayList<FlowBoard> genChildren(){
 		HashSet<FlowBoard> children = new HashSet<>();
 		HashSet<Coordinate> neighbors = new HashSet<>();
@@ -159,7 +161,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		return new ArrayList<>(children);
 	}
-	
+	*/
 	public HashSet<FlowBoard> getApplicableChildren(){
 		HashSet<FlowBoard> newBoards = new HashSet<>();
 		for (Flow f : flows){
@@ -168,6 +170,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				if (newBoardsTemp.size() == 1){
 					return new HashSet<>(newBoardsTemp);
 				} else if (newBoardsTemp.size() == 0) {
+					markAsLeaf();
 					return new HashSet<>(0);
 				}
 				newBoards.addAll(newBoardsTemp);
@@ -235,6 +238,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	*/
 	public boolean isSolved(){
+		//TODO: ensure that all squares are filled (?)
 		for (Flow f : flows){
 			if (!f.isSolved){
 				return false;

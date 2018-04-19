@@ -14,20 +14,21 @@ public class Layer {
 		boards = new HashSet<>();
 		viewIndex = 0;
 		this.ar = ar;
+		ar.layers.add(this);
 	}
 	
 	public Layer(FlowBoard f, Arbor ar){
 		this(ar);
-		ar.addNode(ar.layers.indexOf(this), f, true);   //TODO: ?
 		f.layer = this;
+		ar.addNode(ar.layers.indexOf(this), f, true);   //TODO: ?
 	}
 	
 	public Layer(Collection<FlowBoard> fls, Arbor ar){
 		this(ar);
-		ar.addNodes(ar.layers.indexOf(this), fls, true);    //TODO: ?
 		for (FlowBoard f : boards){
 			f.layer = this;
 		}
+		ar.addNodes(ar.layers.indexOf(this), fls);    //TODO: ?
 		viewIndex = 0;
 	}
 	
@@ -47,6 +48,7 @@ public class Layer {
 		boards.clear();
 	}
 	*/
+	/*
 	public HashSet<FlowBoard> getNewNodes() {
 		HashSet newNodes = new HashSet();
 		for (FlowBoard f : boards) {
@@ -59,7 +61,7 @@ public class Layer {
 		}
 		return newNodes;
 	}
-	
+	/*
 	public HashSet<FlowBoard> getNewNodes(FlowBoard f, Arbor ar){
 		HashSet<FlowBoard> newNodes = new HashSet<>(f.genChildren());
 		for (FlowBoard nb : newNodes) {
@@ -86,6 +88,7 @@ public class Layer {
 			f.children.add(nb);
 		}
 		*/
+	/*
 		return newNodes;
 	}
 	
@@ -119,9 +122,11 @@ public class Layer {
 		}
 	}
 	*/
+	/*
 	public void addAllCertainMoves(){
 		for (FlowBoard f : boards){
 			f.addCertainMoves(true);
 		}
 	}
+	*/
 }

@@ -8,6 +8,7 @@ import org.junit.Test;
 import sample.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class FlowBoardTest {
@@ -35,7 +36,7 @@ public class FlowBoardTest {
 		f2 = new Flow(c, d, 1);
 		flowArrayList.add(f1);
 		flowArrayList.add(f2);
-		fl = new FlowBoard(new LinkedList<FlowBoard>(), new LinkedList<FlowBoard>(), flowArrayList, null);
+		fl = new FlowBoard(new HashSet<>(), new HashSet<>(), flowArrayList, null);
 		f3 = new Flow(a, b, 0);
 		f4 = new Flow(new Node(new Coordinate(3, 0), 1, true), new Node(new Coordinate(3, 6), 1, true), 1);
 		for (int i = 1; i < 6; i++){
@@ -43,7 +44,7 @@ public class FlowBoardTest {
 		}
 		flowArrayList2.add(f3);
 		flowArrayList2.add(f4);
-		fl2 = new FlowBoard(new LinkedList<FlowBoard>(), new LinkedList<FlowBoard>(), flowArrayList2, null);
+		fl2 = new FlowBoard(new HashSet<>(), new HashSet<>(), flowArrayList2, null);
 	}
 	
 	@Test
@@ -64,7 +65,7 @@ public class FlowBoardTest {
 		ArrayList<Flow> flAr = new ArrayList<>();
 		flAr.add(f);
 		flAr.add(f2);
-		FlowBoard fb = new FlowBoard(new LinkedList<FlowBoard>(), new LinkedList<FlowBoard>(), flAr, null);
+		FlowBoard fb = new FlowBoard(new HashSet<>(), new HashSet<>(), flAr, null);
 		assert fb.checkSquare(new Coordinate(2, 2), new Coordinate(0, 0), Filter.BLOCKFILTER);
 		assert !fb.checkSquare(new Coordinate(2, 2), new Coordinate(1, 0), Filter.BLOCKFILTER);
 		assert fb.filterCheck(new Coordinate(2, 2));

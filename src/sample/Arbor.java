@@ -16,6 +16,8 @@ public class Arbor {
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
 		genLayer(root);
+		root.layer = layers.get(0);
+		this.root = root;
 		viewIndex = 0;
 	}
 	
@@ -34,12 +36,12 @@ public class Arbor {
 	public void genLayer(FlowBoard f){
 		layers.add(new Layer(f, this));
 	}
-	
+	/*
 	public void genLayer(){
 		Layer prev = layers.getLast();
 		layers.add(new Layer(prev.getNewNodes(), this));
 	}
-	
+	/*
 	public boolean genLayerDepthFirst(){
 		Layer prev = layers.getLast();
 		LinkedList<FlowBoard> boards = new LinkedList<>(prev.boards);
@@ -50,6 +52,27 @@ public class Arbor {
 			return true;
 		}
 		return false;
+	}
+	*/
+	
+	public FlowBoard getHighestPriorityBoard(){
+		//TODO: add handling for priority rating
+		for (int i = layers.size()-1; i != 0; i--){
+			for (FlowBoard f : layers.get(i).boards){
+				if (f.children.size() == 0 && !f.isLeaf){
+					return f;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void genNextNodes(){
+		FlowBoard f = getHighestPriorityBoard();
+		while (f != null){
+			addNodes(layers.indexOf(f.layer) + 1,f.getApplicableChildren());
+			f = getHighestPriorityBoard();
+		}
 	}
 	
 	public boolean genNewLayer(Collection<FlowBoard> collection){
@@ -82,9 +105,9 @@ public class Arbor {
 		return true;
 	}
 	
-	public boolean addNodes(int layer, Collection<FlowBoard> f, boolean addChildren){
+	public boolean addNodes(int layer, Collection<FlowBoard> f){
 		for (FlowBoard fl : f){
-			if (!addNode(layer, fl, addChildren)){
+			if (!addNode(layer, fl, f.size() == 1)){
 				return false;
 			}
 		}
