@@ -84,21 +84,14 @@ public class Flow {
 		}
 		nodes.add(n);
 		ArrayList<Coordinate> neighbors = n.loc.getNeighbors(false, false, false, false, n.colorCode, f);
-		if (workingNodes.size() == 0){
-			int i = 0;
-		}
 		for (Coordinate c : neighbors){
+			f.nodes[c.x][c.y].isEnd = false;
+			n.isEnd = true;
 			workingNodes.remove(f.nodes[c.x][c.y]);
-			workingNodes.add(n);
-			if (workingNodes.size() == 0){
-				int i = 0;
-			}
 			f.nodes[c.x][c.y].isSolved = true;
 			//NOTE: must set isSolved status of new node at node constructor
 		}
-		if (workingNodes.size() == 0){
-			int i = 0;
-		}
+		workingNodes.add(n);
 		resolveSolved(f);
 	}
 	

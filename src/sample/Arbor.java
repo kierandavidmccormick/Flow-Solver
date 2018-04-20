@@ -15,8 +15,9 @@ public class Arbor {
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
-		genLayer(root);
+		genNewLayer();
 		root.layer = layers.get(0);
+		addNode(0,root,true);
 		this.root = root;
 		viewIndex = 0;
 	}
@@ -28,7 +29,7 @@ public class Arbor {
 		}
 		viewIndex %= layers.size();
 	}
-	
+	/*
 	public void genLayer(Collection<FlowBoard> fls){
 		layers.add(new Layer(fls, this));
 	}
@@ -58,12 +59,16 @@ public class Arbor {
 	public FlowBoard getHighestPriorityBoard(){
 		//TODO: add handling for priority rating
 		for (int i = layers.size()-1; i != 0; i--){
+			int a = 0;
 			for (FlowBoard f : layers.get(i).boards){
+				int b = 0;
 				if (f.children.size() == 0 && !f.isLeaf){
+					int c = 0;
 					return f;
 				}
 			}
 		}
+		int d = 0;
 		return null;
 	}
 	
@@ -74,7 +79,7 @@ public class Arbor {
 			f = getHighestPriorityBoard();
 		}
 	}
-	
+	/*
 	public boolean genNewLayer(Collection<FlowBoard> collection){
 		if (collection.size() > 0) {
 			layers.add(new Layer(collection, this));
@@ -82,16 +87,19 @@ public class Arbor {
 		}
 		return false;
 	}
-	
+	/*
 	public boolean genNewLayer(FlowBoard f){
 		return layers.add(new Layer(f, this));
 	}
+	*/
+	public void genNewLayer(){layers.add(new Layer(this));}
 	
 	public boolean addNode(int layer, FlowBoard f, boolean addChildren){
 		if (layer < layers.size()){
 			layers.get(layer).boards.add(f);
 		} else if (layer == layers.size()){
-			genNewLayer(f);
+			genNewLayer();
+			layers.get(layer).boards.add(f);
 		} else {
 			System.err.println("ATTEMPTED TO ADD NODE(S) TO INVALID LAYER");
 			return false;

@@ -61,9 +61,10 @@ public class Node {
 		ArrayList<Coordinate> newNodes = loc.getNeighbors(true, false, false, null, (byte)-1, f);
 		for (Coordinate c : newNodes){
 			FlowBoard newBoard = new FlowBoard(f);
-			newBoard.addNode(new Node(c, colorCode, false, false), f.getFlow(colorCode));
+			newBoard.addNode(new Node(c, colorCode, true, false), f.getFlow(colorCode));
 			newBoards.add(newBoard);
 		}
-		return newBoards;
+		return newBoards;       //error stems fron node being added to f.(flow).workingNodes, but a different node being added to f.nodes
+		//Error stems from much larger bug where flows have duplicate nodes for different areas
 	}
 }

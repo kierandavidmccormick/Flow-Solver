@@ -16,13 +16,14 @@ public class Layer {
 		this.ar = ar;
 		ar.layers.add(this);
 	}
-	
+	/*
 	public Layer(FlowBoard f, Arbor ar){
 		this(ar);
 		f.layer = this;
 		ar.addNode(ar.layers.indexOf(this), f, true);   //TODO: ?
 	}
-	
+	*/
+	/*
 	public Layer(Collection<FlowBoard> fls, Arbor ar){
 		this(ar);
 		for (FlowBoard f : boards){
@@ -31,7 +32,7 @@ public class Layer {
 		ar.addNodes(ar.layers.indexOf(this), fls);    //TODO: ?
 		viewIndex = 0;
 	}
-	
+	*/
 	public void changeViewIndex(int change){
 		viewIndex += change;
 		while (viewIndex < 0){
