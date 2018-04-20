@@ -62,17 +62,33 @@ public class Flow {
 	}
 	
 	public Flow (Flow f){
+		/*
 		nodes = new LinkedList<>();
 		for (Node n : f.nodes){
 			nodes.add(new Node(n));
 		}
 		endNodes = new LinkedList<>();
 		for (Node n : f.endNodes){
-			endNodes.add(new Node(n));
+			endNodes.add(new Node(n));      //creates duplicates for workingNodes and endNodes
 		}
 		workingNodes = new LinkedList<>();
 		for (Node n : f.workingNodes){
 			workingNodes.add(new Node(n));
+		}
+		*/
+		nodes = new LinkedList<>();
+		endNodes = new LinkedList<>();
+		workingNodes = new LinkedList<>();
+		for (Node n : f.nodes){
+			Node nn = new Node(n);
+			nodes.add(nn);
+			if (f.endNodes.contains(n)){
+				endNodes.add(nn);
+			}
+			if (f.workingNodes.contains(n)){
+				workingNodes.add(nn);
+			}
+			
 		}
 		colorCode = f.colorCode;
 		isSolved = f.isSolved;

@@ -64,7 +64,6 @@ public class Node {
 			newBoard.addNode(new Node(c, colorCode, true, false), f.getFlow(colorCode));
 			newBoards.add(newBoard);
 		}
-		return newBoards;       //error stems fron node being added to f.(flow).workingNodes, but a different node being added to f.nodes
-		//Error stems from much larger bug where flows have duplicate nodes for different areas
+		return newBoards;
 	}
 }

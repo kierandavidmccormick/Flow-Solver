@@ -42,8 +42,8 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	
 	public FlowBoard(FlowBoard f){
 		nodes = new Node[f.nodes.length][f.nodes[0].length];
-		for (int i = 0; i < f.nodes.length; i++){
-			for (int j = 0; j < f.nodes[0].length; j++){
+		for (int i = 0; i < f.nodes.length; i++) {
+			for (int j = 0; j < f.nodes[0].length; j++) {
 				nodes[i][j] = new Node(f.nodes[i][j]);
 			}
 		}
@@ -60,8 +60,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		layer = f.layer;
 		flows = new ArrayList<>(f.flows.size());
 		for (Flow flow : f.flows){
-			
 			flows.add(new Flow(flow));
+		}
+		for (Flow flow : flows){
+			for (Node n : flow.nodes){
+				nodes[n.loc.x][n.loc.y] = n;
+			}
 		}
 		isLeaf = false;
 	}
