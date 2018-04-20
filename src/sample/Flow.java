@@ -108,7 +108,7 @@ public class Flow {
 			//NOTE: must set isSolved status of new node at node constructor
 		}
 		workingNodes.add(n);
-		resolveSolved(f);
+		resolveSolved(f);       //somehow calling object is not a member of f.flows
 	}
 	
 	public void removeNode(Node n){

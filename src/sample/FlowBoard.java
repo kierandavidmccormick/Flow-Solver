@@ -35,6 +35,11 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			newFlows.add(new Flow(n1, n2, (byte)(i/4)));
 		}
 		flows = new ArrayList<>(newFlows);
+		for (Flow flow : flows){
+			for (Node n : flow.nodes){
+				nodes[n.loc.x][n.loc.y] = n;
+			}
+		}
 		parents = new HashSet<>(0);
 		parents = new HashSet<>(0);
 		isLeaf = false;
@@ -71,6 +76,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public FlowBoard(Node[][] nodes, ArrayList<Flow> flows, Layer layer){
+		//NOTE: not guaranteed not to posess duplicated nodes, do not use outside of proscribed test settings
 		this.nodes = new Node[nodes.length][nodes[0].length];
 		for (int i = 0; i < nodes.length; i++){
 			for (int j = 0; j < nodes[0].length; j++){
@@ -88,6 +94,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public FlowBoard(HashSet<FlowBoard> parents, HashSet<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
+		//NOTE: not guaranteed not to posess duplicated nodes, do not use outside of proscribed test settings
 		this.flows = flows;
 		this.parents = parents;
 		this.children = children;
@@ -475,8 +482,9 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public void addNode(Node n, Flow f){
-		f.addNode(n, this);
 		nodes[n.loc.x][n.loc.y] = n;
+		f.addNode(n, this);
+		
 	}
 	/*
 	//functionality replaced
