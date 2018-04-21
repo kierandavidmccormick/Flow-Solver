@@ -108,7 +108,7 @@ public class Flow {
 			//NOTE: must set isSolved status of new node at node constructor
 		}
 		workingNodes.add(n);
-		resolveSolved(f);       //somehow calling object is not a member of f.flows
+		resolveSolved(f);
 	}
 	
 	public void removeNode(Node n){
@@ -126,12 +126,12 @@ public class Flow {
 	}
 	
 	public boolean checkSolved(FlowBoard f) {
-		//try {
-			return isSolved || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.colorCode, f).contains(workingNodes.get(1).loc);
-		//} catch (Exception e){
-		//	int i = 0;
-		//	return false;
-		//}
+		try {
+			return isSolved || workingNodes.size() == 1 || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.colorCode, f).contains(workingNodes.get(1).loc);
+		} catch (Exception e){
+			int i = 0;
+			return false;
+		}
 	}
 	
 	public void finish(){

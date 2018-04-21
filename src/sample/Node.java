@@ -61,7 +61,7 @@ public class Node {
 		ArrayList<Coordinate> newNodes = loc.getNeighbors(true, false, false, null, (byte)-1, f);
 		for (Coordinate c : newNodes){
 			FlowBoard newBoard = new FlowBoard(f);
-			newBoard.addNode(new Node(c, colorCode, true, false), f.getFlow(colorCode));
+			newBoard.addNode(new Node(c, colorCode, true, false), newBoard.getFlow(colorCode));
 			newBoards.add(newBoard);
 		}
 		return newBoards;
