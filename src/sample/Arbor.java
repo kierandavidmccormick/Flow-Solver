@@ -74,9 +74,11 @@ public class Arbor {
 	
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
-		while (f != null){
+		int count = 0;
+		while (f != null && count < 100){
 			addNodes(layers.indexOf(f.layer) + 1,f.getApplicableChildren());
 			f = getHighestPriorityBoard();
+			count++;
 		}
 	}
 	/*

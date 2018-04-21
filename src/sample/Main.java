@@ -76,10 +76,6 @@ public class Main extends Application {
 	    //fl.fatalError();
 	    long t1 = System.currentTimeMillis();
 	    //fl.addCertainMoves(true);
-	    System.out.println(ar.layers.get(0).boards.contains(new FlowBoard(fl)));
-	    LinkedList<FlowBoard> fasdf = new LinkedList<>();
-	    fasdf.add(fl);
-	    System.out.println(fasdf.contains(new FlowBoard(fl)));
 	    /*
 	    while (ar.genLayerDepthFirst()){
 		    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));

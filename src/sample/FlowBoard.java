@@ -143,12 +143,26 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return null;
 	}
 	
-	public int compareTo(FlowBoard f){
-		if (equals(f)){
+	public int compareTo(FlowBoard f) {
+		if (equals(f)) {
 			return 0;
 		}
-		return Integer.valueOf(this.toString()) > Integer.valueOf(this.toString()) ? 1 : 0;
+		try {
+			return toInt() > f.toInt() ? 1 : -1;
+		} catch (Exception e){
+			return 0;
+		}
 	}
+	
+	public int toInt(){
+		char[] chars = this.toString().toCharArray();
+		int val = 0;
+		for (Character c : chars){
+			val = 31 * val + c;
+		}
+		return val;
+	}
+	
 	/*
 	public ArrayList<FlowBoard> genChildren(){
 		HashSet<FlowBoard> children = new HashSet<>();
