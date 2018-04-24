@@ -8,17 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
-//TODO: implement equals and hashCode properly in all classes
-//TODO: switch to depth-first/beam search
 //TODO: add compressed versions of flowBoards, nodes, etc.
-//TODO: fix creation of boards to respect layer integrity
-//TODO: fix hashCodes of classes containing array elements (?)
-//TODO: fix .contains for flowBoards (?)
-//TODO: fix or replace (probably 2) addCertainNodes
-//TODO: re-add parents
 
 public class Main extends Application {
 
@@ -98,7 +88,7 @@ public class Main extends Application {
 	    }
 	    */
 	    //ar.genLayersForever();
-	    ar.genNextNodes();
+	    ar.genNextNodes();      //issue is now hundreds of duplicate boards
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();

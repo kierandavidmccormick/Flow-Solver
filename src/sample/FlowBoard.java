@@ -76,7 +76,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public FlowBoard(Node[][] nodes, ArrayList<Flow> flows, Layer layer){
-		//NOTE: not guaranteed not to posess duplicated nodes, do not use outside of proscribed test settings
+		//NOTE: not guaranteed not to possess duplicated nodes, do not use outside of proscribed test settings
 		this.nodes = new Node[nodes.length][nodes[0].length];
 		for (int i = 0; i < nodes.length; i++){
 			for (int j = 0; j < nodes[0].length; j++){
@@ -94,7 +94,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public FlowBoard(HashSet<FlowBoard> parents, HashSet<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
-		//NOTE: not guaranteed not to posess duplicated nodes, do not use outside of proscribed test settings
+		//NOTE: not guaranteed not to possess duplicated nodes, do not use outside of proscribed test settings
 		this.flows = flows;
 		this.parents = parents;
 		this.children = children;

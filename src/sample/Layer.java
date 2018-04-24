@@ -44,6 +44,11 @@ public class Layer {
 	public ArrayList<FlowBoard> getBoardsIterable(){
 		return new ArrayList<>(boards);
 	}
+	
+	public boolean equals(Object o){
+		return this == o;
+	}
+	
 	/*
 	public void delete(){
 		boards.clear();
