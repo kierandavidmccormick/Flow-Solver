@@ -94,7 +94,10 @@ public class Arbor {
 		return layers.add(new Layer(f, this));
 	}
 	*/
-	public void genNewLayer(){layers.add(new Layer(this));}
+	public void genNewLayer(){
+		new Layer(this);
+		int i = 0;
+	}
 	
 	public boolean addNode(int layer, FlowBoard f, boolean addChildren){
 		if (layer < layers.size()){
