@@ -17,7 +17,7 @@ public class Arbor {
 		layers = new LinkedList<>();
 		//genNewLayer();
 		this.root = root;
-		addNode(0,root,true);
+		addNode(0,root, null, true);
 		root.layer = layers.get(0);
 		viewIndex = 0;
 	}
@@ -71,16 +71,12 @@ public class Arbor {
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
 		int count = 0;
-		while (f != null && count < 10){
-			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren());
-			if (f.children.size() == 0){
-				int j = 0;
-			}
+		while (f != null && count < 100){
+			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);
 			f = getHighestPriorityBoard();
 			count++;
-			if (count == 10){
+			if (count == 100){
 				int i = 0;
-				break;
 			}
 		}
 	}
@@ -101,7 +97,10 @@ public class Arbor {
 		new Layer(this);
 	}
 	
-	public boolean addNode(int layer, FlowBoard f, boolean addChildren){
+	public boolean addNode(int layer, FlowBoard f, FlowBoard p, boolean addChildren){
+		if (p != null) {
+			p.setAsParentOf(f);
+		}
 		if (layer < layers.size()){
 			f.layer = layers.get(layer);
 			layers.get(layer).boards.add(f);
@@ -116,15 +115,15 @@ public class Arbor {
 		if (addChildren){
 			HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
 			for (FlowBoard fl : newBoards){
-				addNode(layer + 1, fl, newBoards.size() == 1);
+				addNode(layer + 1, fl, f, newBoards.size() == 1);
 			}
 		}
 		return true;
 	}
 	
-	public boolean addNodes(int layer, Collection<FlowBoard> f){
+	public boolean addNodes(int layer, Collection<FlowBoard> f, FlowBoard p){
 		for (FlowBoard fl : f){
-			if (!addNode(layer, fl, f.size() == 1)){
+			if (!addNode(layer, fl, p, f.size() == 1)){
 				return false;
 			}
 		}

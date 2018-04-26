@@ -211,6 +211,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return fs;
 	}
 	
+	public FlowBoard setAsParentOf(FlowBoard f){
+		children.add(f);
+		f.parents.add(this);
+		return f;
+	}
+	
 	public boolean addCertainMoves(boolean rec){
 		boolean addedNode = false;
 		LinkedList<Node> nodes = new LinkedList<>();
