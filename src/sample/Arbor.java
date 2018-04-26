@@ -73,6 +73,9 @@ public class Arbor {
 		int count = 0;
 		while (f != null && count < 10){
 			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren());
+			if (f.children.size() == 0){
+				int j = 0;
+			}
 			f = getHighestPriorityBoard();
 			count++;
 			if (count == 10){

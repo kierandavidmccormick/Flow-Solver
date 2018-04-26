@@ -122,7 +122,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		if (o instanceof FlowBoard){
 			FlowBoard f = (FlowBoard)o;
-			return flows.equals(f.flows) && /*parents.equals(f.parents) &&*/ children.equals(f.children) && layer.equals(f.layer);
+			return flows.equals(f.flows) /*&& parents.equals(f.parents) && children.equals(f.children) && layer.equals(f.layer)*/;
 		}
 		return false;
 	}
