@@ -15,10 +15,10 @@ public class Arbor {
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
-		genNewLayer();
-		root.layer = layers.get(0);
+		//genNewLayer();
 		this.root = root;
 		addNode(0,root,true);
+		root.layer = layers.get(0);
 		viewIndex = 0;
 	}
 	

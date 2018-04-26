@@ -8,7 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-//TODO: add compressed versions of flowBoards, nodes, etc.
+//TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
+//TODO: add backtracking
+//TODO: resolve addition of endless boards to the same end location when a board has no valid children
 
 public class Main extends Application {
 
@@ -36,22 +38,22 @@ public class Main extends Application {
         decRectangle2.setFill(Color.DARKBLUE);
         incRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
 	        ar.changeViewIndex(1);
-	        System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+	        System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex + "/" + (ar.layers.get(ar.viewIndex).boards.size()-1));
 	        updateGUI();
         });
         decRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
         	ar.changeViewIndex(-1);
-        	System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+        	System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex + "/" + (ar.layers.get(ar.viewIndex).boards.size()-1));
         	updateGUI();
         });
 	    incRectangle2.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
 		    ar.layers.get(ar.viewIndex).changeViewIndex(1);
-		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex + "/" + (ar.layers.get(ar.viewIndex).boards.size()-1));
 		    updateGUI();
 	    });
 	    decRectangle2.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
 		    ar.layers.get(ar.viewIndex).changeViewIndex(-1);
-		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex);
+		    System.out.println("Layer: " + ar.viewIndex + ", Board: " + ar.layers.get(ar.viewIndex).viewIndex + "/" + (ar.layers.get(ar.viewIndex).boards.size()-1));
 		    updateGUI();
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {

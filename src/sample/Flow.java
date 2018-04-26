@@ -129,7 +129,6 @@ public class Flow {
 		try {
 			return isSolved || workingNodes.size() == 1 || workingNodes.get(0).loc.equals(workingNodes.get(1).loc) || workingNodes.get(0).loc.getNeighbors(false, false, false, false, this.colorCode, f).contains(workingNodes.get(1).loc);
 		} catch (Exception e){
-			int i = 0;
 			return false;
 		}
 	}

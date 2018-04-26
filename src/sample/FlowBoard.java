@@ -319,7 +319,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	public Boolean fatalError(){
 		for (Flow flow : flows) {
 			if (!flow.isSolved && !connected(flow.workingNodes.get(0), flow.workingNodes.get(1))){
-				System.out.println("Flow " + ColorSet.colorNames[flow.colorCode] + " not connected");
+				//System.out.println("Flow " + ColorSet.colorNames[flow.colorCode] + " not connected");
 				return true;
 			}
 		}
@@ -336,6 +336,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public Boolean globalFilterCheck(){
+		int r = 0;
 		for (int[][] filter : Filter.filters) {
 			int i;
 			int j;
@@ -370,11 +371,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public Boolean checkSquare(Coordinate c, Coordinate offset, int[][] filter){
-		byte compColor = nodes[c.x][c.y].colorCode;
+		Coordinate tc = new Coordinate(c.x - offset.x, c.y - offset.y);
+		byte compColor = tc.isInBounds() ? nodes[tc.x][tc.y].colorCode : -1;
 		for (int i = 0; i < filter.length; i++){
 			for (int j = 0; j < filter[0].length; j++){
 				Coordinate n = new Coordinate(c.x - offset.x + i, c.y - offset.y + j);
-				if (filter != Filter.BLOCKFILTER || (n.isInBounds() && nodes[n.x][n.y].colorCode != -1 && nodes[n.x][n.y].colorCode == compColor)) {
+				if (filter != Filter.BLOCKFILTER || (n.isInBounds() && nodes[n.x][n.y].colorCode != -1 && nodes[n.x][n.y].colorCode == compColor)) {    //Questionable
 					if (!n.checkSquare(this, filter[i][j])) {
 						return false;
 					}
@@ -389,11 +391,33 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	public Boolean allNodesReachable(){
 		//TODO: optimize this whole process
 		boolean[][][] inValidNodes = new boolean[nodes.length][nodes[0].length][2];
-		LinkedList<Coordinate> connectedCoordinates = getConnectedCoordinates(flows.get(0).workingNodes.get(0).loc);
+		//LinkedList<Coordinate> connectedCoordinates = getConnectedCoordinates(flows.get(0).workingNodes.get(0).loc);
+		LinkedList<Coordinate> connectedCoordinates = new LinkedList<>();
+		/*
+		try {
+			connectedCoordinates = getConnectedCoordinates(flows.get(0).workingNodes.get(0).loc);
+		} catch (IndexOutOfBoundsException e) {
+			int i = 0;
+			connectedCoordinates = new LinkedList<>();
+		}
+		*/
+		for (Flow f : flows){
+			if (f.workingNodes.size() > 0){
+				connectedCoordinates.addAll(getConnectedCoordinates(f.workingNodes.get(0).loc));
+				break;
+			}
+		}
 		for (Coordinate coordinate : connectedCoordinates) {
 			inValidNodes[coordinate.x][coordinate.y][0] = true;
 		}
-		connectedCoordinates = getConnectedCoordinates(flows.get(0).workingNodes.get(1).loc);
+		connectedCoordinates.clear();
+		for (Flow f : flows){
+			if (f.workingNodes.size() > 1){
+				connectedCoordinates.addAll(getConnectedCoordinates(f.workingNodes.get(1).loc));
+				break;
+			}
+		}
+		//connectedCoordinates = getConnectedCoordinates(flows.get(0).workingNodes.get(1).loc);
 		for (Coordinate coordinate : connectedCoordinates) {
 			inValidNodes[coordinate.x][coordinate.y][1] = true;
 		}
