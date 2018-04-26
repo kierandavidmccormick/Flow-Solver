@@ -41,7 +41,6 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		parents = new HashSet<>(0);
-		parents = new HashSet<>(0);
 		isLeaf = false;
 	}
 	
@@ -551,8 +550,9 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			for (FlowBoard p : parents){
 				boolean setIsLeaf = true;
 				for (FlowBoard c : p.children){
-					if (c.children.size() > 0 || !c.isLeaf){
+					if (c.children.size() > 0 && !c.isLeaf){
 						setIsLeaf = false;
+						break;
 					}
 				}
 				if (setIsLeaf){

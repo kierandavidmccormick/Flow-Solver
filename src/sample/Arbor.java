@@ -71,10 +71,14 @@ public class Arbor {
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
 		int count = 0;
-		while (f != null && count < 100){
+		while (f != null && count < 10){
 			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren());
 			f = getHighestPriorityBoard();
 			count++;
+			if (count == 10){
+				int i = 0;
+				break;
+			}
 		}
 	}
 	/*
@@ -96,12 +100,12 @@ public class Arbor {
 	
 	public boolean addNode(int layer, FlowBoard f, boolean addChildren){
 		if (layer < layers.size()){
-			layers.get(layer).boards.add(f);
 			f.layer = layers.get(layer);
+			layers.get(layer).boards.add(f);
 		} else if (layer == layers.size()){
 			genNewLayer();
-			layers.get(layer).boards.add(f);
 			f.layer = layers.get(layer);
+			layers.get(layer).boards.add(f);
 		} else {
 			System.err.println("ATTEMPTED TO ADD NODE(S) TO INVALID LAYER");
 			return false;

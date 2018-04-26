@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: add backtracking
-//TODO: resolve addition of endless boards to the same end location when a board has no valid children
+//TODO: resolve addition of endless boards to the same end location when a board has no valid children, stems from issue in markAsLeaf stemming from issue in assigning children and parents properly (boards seem to be extant, but are in the wrong layers)
 
 public class Main extends Application {
 
@@ -29,7 +29,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("FlowSolver");
         //FlowBoard fl = new FlowBoard(8, 2, 0, 7, 8, 4, 0, 8, 4, 4, 4, 7, 6, 5, 3, 6, 2, 8, 6, 7, 3, 7, 5, 8);
-	    FlowBoard fl = new FlowBoard(2, 0, 6, 8, 3, 0, 8, 5, 4, 0, 8, 1, 2, 1, 6, 0, 3, 2, 2, 3, 5, 5, 0, 6, 0, 7, 5, 8, 7, 7, 9, 9, 8, 7, 9, 8, 0, 8, 3, 9, 1, 8, 7, 9);
+	    //FlowBoard fl = new FlowBoard(2, 0, 6, 8, 3, 0, 8, 5, 4, 0, 8, 1, 2, 1, 6, 0, 3, 2, 2, 3, 5, 5, 0, 6, 0, 7, 5, 8, 7, 7, 9, 9, 8, 7, 9, 8, 0, 8, 3, 9, 1, 8, 7, 9);
+	    FlowBoard fl = new FlowBoard(0,0,4,4, 1,1,2,4, 1,2,2,7, 2,1,5,6, 3,1,2,6, 4,7,7,2);
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
@@ -65,7 +66,7 @@ public class Main extends Application {
 	    		squareArray[i][j] = new Rectangle(i * 50, j * 50, 50, 50);
 		    }
 	    }
-	    //fl.fatalError();
+	    fl.fatalError();
 	    long t1 = System.currentTimeMillis();
 	    //fl.addCertainMoves(true);
 	    /*
@@ -90,7 +91,7 @@ public class Main extends Application {
 	    }
 	    */
 	    //ar.genLayersForever();
-	    ar.genNextNodes();      //issue is now hundreds of duplicate boards
+	    ar.genNextNodes();
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
