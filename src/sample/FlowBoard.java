@@ -556,7 +556,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			for (FlowBoard p : parents){
 				boolean setIsLeaf = true;
 				for (FlowBoard c : p.children){
-					if (c.children.size() > 0 && !c.isLeaf){
+					if (!c.isLeaf){
 						setIsLeaf = false;
 						break;
 					}

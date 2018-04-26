@@ -9,8 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
-//TODO: add backtracking
-//TODO: resolve addition of endless boards to the same end location when a board has no valid children, stems from issue in markAsLeaf stemming from issue in assigning children and parents properly (boards seem to be extant, but are in the wrong layers)
+//TODO: filterCheck is still buggy
 
 public class Main extends Application {
 
@@ -58,7 +57,7 @@ public class Main extends Application {
 		    updateGUI();
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("Result: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).fatalError() + ", allNodesReachable: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).allNodesReachable() + ", globalFilterCheck: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck());
+        	System.out.println("Result: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).fatalError() + ", allNodesReachable: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).allNodesReachable() + ", globalFilterCheck: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck() + ", isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf);
 	        updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){

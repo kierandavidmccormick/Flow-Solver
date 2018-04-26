@@ -71,14 +71,18 @@ public class Arbor {
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
 		int count = 0;
-		while (f != null && count < 100){
-			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);
+		while (f != null && count < 1000){
+			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
+				System.out.println("SOLVED!");
+				return;
+			}
 			f = getHighestPriorityBoard();
 			count++;
 			if (count == 100){
 				int i = 0;
 			}
 		}
+		int i = 0;
 	}
 	/*
 	public boolean genNewLayer(Collection<FlowBoard> collection){
@@ -112,22 +116,25 @@ public class Arbor {
 			System.err.println("ATTEMPTED TO ADD NODE(S) TO INVALID LAYER");
 			return false;
 		}
+		if (f.isSolved()){
+			return true;
+		}
 		if (addChildren){
 			HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
 			for (FlowBoard fl : newBoards){
 				addNode(layer + 1, fl, f, newBoards.size() == 1);
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean addNodes(int layer, Collection<FlowBoard> f, FlowBoard p){
 		for (FlowBoard fl : f){
-			if (!addNode(layer, fl, p, f.size() == 1)){
-				return false;
+			if (addNode(layer, fl, p, f.size() == 1)){
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 }
