@@ -71,19 +71,31 @@ public class Arbor {
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
 		int count = 0;
-		while (f != null && count < 1000){
+		int repetitions = 100000;
+		//HashSet<Integer> ids = new HashSet<>(repetitions);
+		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
 				System.out.println("SOLVED!");
 				return;
 			}
 			f = getHighestPriorityBoard();
 			count++;
-			if (count == 100){
-				int i = 0;
-			}
+			//int id = System.identityHashCode(f);
+			//boolean New = ids.add(id);
+			System.out.println("Count: " + count/* + " New: " + New + " Board: " + id*/);
+			
 		}
-		int i = 0;
+		System.out.println("Boards: " + getBoardsSize());
 	}
+	
+	public int getBoardsSize(){
+		int size = 0;
+		for (Layer l : layers){
+			size += l.boards.size();
+		}
+		return size;
+	}
+	
 	/*
 	public boolean genNewLayer(Collection<FlowBoard> collection){
 		if (collection.size() > 0) {

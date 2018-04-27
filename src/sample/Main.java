@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: filterCheck is still buggy
+//TODO: duplicate boards are present some of the time
 
 public class Main extends Application {
 
@@ -94,7 +96,8 @@ public class Main extends Application {
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
-	    //Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
+	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
+	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
         //alert.showAndWait();
     }
 	
