@@ -18,7 +18,7 @@ public class Arbor {
 		//genNewLayer();
 		this.root = root;
 		addNode(0,root, null, true);
-		root.layer = layers.get(0);
+		//root.layer = layers.get(0);
 		viewIndex = 0;
 	}
 	
@@ -71,7 +71,7 @@ public class Arbor {
 	public void genNextNodes(){
 		FlowBoard f = getHighestPriorityBoard();
 		int count = 0;
-		int repetitions = 100000;
+		int repetitions = 100;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){

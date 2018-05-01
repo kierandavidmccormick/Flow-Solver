@@ -134,9 +134,14 @@ public class Flow {
 	}
 	
 	public void finish(){
-		for (Node n : workingNodes){
+		for (Node n : nodes){
 			n.isSolved = true;
 		}
+		for (Node n : nodes){
+			n.isEnd = false;
+		}
+		nodes.sort((Node n1, Node n2)->n1.hashCode()-n2.hashCode());
+		endNodes.clear();
 		workingNodes.clear();
 		isSolved = true;
 	}

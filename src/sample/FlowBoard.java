@@ -188,16 +188,21 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	*/
 	public HashSet<FlowBoard> getApplicableChildren(){
 		HashSet<FlowBoard> newBoards = new HashSet<>();
+		boolean oneChild = false;
 		for (Flow f : flows){
 			for (Node n : f.workingNodes){
 				LinkedList<FlowBoard> newBoardsTemp = n.getBoardChildren(this);
-				if (newBoardsTemp.size() == 1){
-					return new HashSet<>(newBoardsTemp);
+				if (newBoardsTemp.size() == 1 && !oneChild){
+					oneChild = true;
+					newBoards.clear();
+					newBoards.addAll(newBoardsTemp);
 				} else if (newBoardsTemp.size() == 0) {
 					markAsLeaf();
 					return new HashSet<>(0);
 				}
-				newBoards.addAll(newBoardsTemp);
+				if (!oneChild) {
+					newBoards.addAll(newBoardsTemp);
+				}
 			}
 		}
 		return newBoards;

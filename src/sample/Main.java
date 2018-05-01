@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: filterCheck is still buggy
 //TODO: duplicate boards are present some of the time
+//TODO: checking for solved boards is still not working
 
 public class Main extends Application {
 
-	public static int DIM = 10;
+	public static int DIM = 8;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
@@ -31,7 +32,9 @@ public class Main extends Application {
         primaryStage.setTitle("FlowSolver");
         //FlowBoard fl = new FlowBoard(8, 2, 0, 7, 8, 4, 0, 8, 4, 4, 4, 7, 6, 5, 3, 6, 2, 8, 6, 7, 3, 7, 5, 8);
 	    //FlowBoard fl = new FlowBoard(2, 0, 6, 8, 3, 0, 8, 5, 4, 0, 8, 1, 2, 1, 6, 0, 3, 2, 2, 3, 5, 5, 0, 6, 0, 7, 5, 8, 7, 7, 9, 9, 8, 7, 9, 8, 0, 8, 3, 9, 1, 8, 7, 9);
-	    FlowBoard fl = new FlowBoard(0,0,4,4, 1,1,2,4, 1,2,2,7, 2,1,5,6, 3,1,2,6, 4,7,7,2);
+	    //FlowBoard fl = new FlowBoard(0,0,4,4, 1,1,2,4, 1,2,2,7, 2,1,5,6, 3,1,2,6, 4,7,7,2);   //10x10
+	    //FlowBoard fl = new FlowBoard(0,2,3,1, 1,1,3,3, 3,0,7,0, 4,1,4,3, 1,3,4,4, 0,3,0,7, 0,5,6,2);  //8x8
+	    FlowBoard fl = new FlowBoard(0,0,5,2, 0,1,7,7, 1,1,4,2, 6,0,2,6, 7,0,3,4, 2,3,7,6, 3,6,6,6);  //8x8
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
