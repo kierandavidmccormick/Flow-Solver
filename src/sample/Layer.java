@@ -49,6 +49,16 @@ public class Layer {
 		return this == o;
 	}
 	
+	public boolean allBoardsUnique(){
+		HashSet<FlowBoard> newBoards = new HashSet<>(boards.size());
+		for (FlowBoard f : boards){
+			if (!newBoards.add(f)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/*
 	public void delete(){
 		boards.clear();

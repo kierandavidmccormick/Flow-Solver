@@ -10,9 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
-//TODO: filterCheck is still buggy
-//TODO: duplicate boards are present some of the time
-//TODO: checking for solved boards is still not working
+//TODO: filterCheck is still buggy (squares not being detected in some instances)
+//TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
 
 public class Main extends Application {
 
@@ -62,7 +61,7 @@ public class Main extends Application {
 		    updateGUI();
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("Result: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).fatalError() + ", allNodesReachable: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).allNodesReachable() + ", globalFilterCheck: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck() + ", isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf);
+        	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", allBoardsUnique: " + ar.layers.get(ar.viewIndex).allBoardsUnique());
 	        updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){

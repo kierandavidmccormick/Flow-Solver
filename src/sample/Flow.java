@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -23,10 +24,10 @@ public class Flow {
 		this.workingNodes.add(sNode);
 		this.workingNodes.add(eNode);
 		if (!nodes.contains(sNode)) {
-			nodes.add(sNode);
+			this.nodes.add(sNode);
 		}
 		if (!nodes.contains(eNode)) {
-			nodes.add(eNode);
+			this.nodes.add(eNode);
 		}
 		this.colorCode = (byte)colorCode;
 	}
@@ -109,6 +110,11 @@ public class Flow {
 		}
 		workingNodes.add(n);
 		resolveSolved(f);
+		if (!isSolved) {
+			nodes.sort(Comparator.comparingInt(Node::hashCode));
+			workingNodes.sort(Comparator.comparing(Node::hashCode));
+		}
+		
 	}
 	
 	public void removeNode(Node n){
@@ -140,7 +146,8 @@ public class Flow {
 		for (Node n : nodes){
 			n.isEnd = false;
 		}
-		nodes.sort((Node n1, Node n2)->n1.hashCode()-n2.hashCode());
+		nodes.sort(Comparator.comparingInt(Node::hashCode));
+		//hopefully endNodes are not mutable, and don't need to be sorted
 		endNodes.clear();
 		workingNodes.clear();
 		isSolved = true;
