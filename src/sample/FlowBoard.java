@@ -352,8 +352,8 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			int j;
 			for (i = 0; i < nodes.length; i++) {
 				for (j = 0; j < nodes[0].length; j++) {
-					if (i != nodes.length - 1 && j != nodes[0].length) {
-						if (checkSquare(new Coordinate(i, j), new Coordinate(filter.length, filter[0].length), filter)) {
+					if (i != nodes.length - 1 && j != nodes[0].length - 1) {    //TODO: should this really be like this?
+						if (checkSquare(new Coordinate(i, j), new Coordinate(filter.length - 1, filter[0].length - 1), filter)) {
 							return true;
 						}
 					} else {

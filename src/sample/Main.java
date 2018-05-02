@@ -62,7 +62,8 @@ public class Main extends Application {
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
         	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", allBoardsUnique: " + ar.layers.get(ar.viewIndex).allBoardsUnique());
-	        updateGUI();
+	        ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck();
+        	updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){
 	    	for (int j = 0; j < DIM; j++){
