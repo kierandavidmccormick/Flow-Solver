@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
 //TODO: actual handling for parents (may not be practicable, although may or may not be needed for deletion, not needed for backtracking)
-//TODO: in order to implement ^, make a custom version of HashTable which supports addition/containment checking in a single unit
+//TODO: ensure that hashTables contain no duplicate keys or values
 
 public class Main extends Application {
 

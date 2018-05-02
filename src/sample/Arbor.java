@@ -59,7 +59,7 @@ public class Arbor {
 	public FlowBoard getHighestPriorityBoard(){
 		//TODO: add handling for priority rating
 		for (int i = layers.size()-1; i != 0; i--){
-			for (FlowBoard f : layers.get(i).boards){
+			for (FlowBoard f : layers.get(i).boards.values()){
 				if (f.children.size() == 0 && !f.isLeaf){
 					return f;
 				}
@@ -93,7 +93,7 @@ public class Arbor {
 		//FlowBoard f = getHighestPriorityBoard();
 		FlowBoard f = getBacktrackBoard();
 		int count = 0;
-		int repetitions = 100000;
+		int repetitions = 100;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);
@@ -142,11 +142,11 @@ public class Arbor {
 		}
 		if (layer < layers.size()){
 			f.layer = layers.get(layer);
-			layers.get(layer).boards.add(f);
+			layers.get(layer).boards.put(f.hashCode(), f);
 		} else if (layer == layers.size()){
 			genNewLayer();
 			f.layer = layers.get(layer);
-			layers.get(layer).boards.add(f);
+			layers.get(layer).boards.put(f.hashCode(), f);
 		} else {
 			System.err.println("ATTEMPTED TO ADD NODE(S) TO INVALID LAYER");
 			return false;
