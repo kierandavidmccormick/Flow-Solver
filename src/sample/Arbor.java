@@ -1,9 +1,6 @@
 package sample;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by kieranmccormick on 1/30/18.
@@ -11,13 +8,16 @@ import java.util.LinkedList;
 public class Arbor {
 	FlowBoard root;
 	LinkedList<Layer> layers;
+	Stack<FlowBoard> workingBoards;
 	int viewIndex;
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
+		workingBoards = new Stack<>();
 		//genNewLayer();
 		this.root = root;
 		addNode(0,root, null, true);
+		workingBoards.push(root);
 		//root.layer = layers.get(0);
 		viewIndex = 0;
 	}
@@ -68,17 +68,40 @@ public class Arbor {
 		return null;
 	}
 	
+	public FlowBoard getBacktrackBoard(){
+		FlowBoard current = workingBoards.peek();
+		do {
+			for (FlowBoard child : current.children) {
+				if (child.isSolved()){
+					workingBoards.push(child);
+					System.out.println("SOLVED");
+					return null;
+				}
+				if (!child.isLeaf) {
+					workingBoards.push(child);
+					return child;
+				}
+			}
+			workingBoards.pop();
+			current = workingBoards.peek();
+		} while (current != root);
+		return root;
+	}
+	
+	
 	public void genNextNodes(){
-		FlowBoard f = getHighestPriorityBoard();
+		//FlowBoard f = getHighestPriorityBoard();
+		FlowBoard f = getBacktrackBoard();
 		int count = 0;
-		int repetitions = 1000;
+		int repetitions = 100000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
-			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
-				System.out.println("SOLVED!");
+			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);
+			//f = getHighestPriorityBoard();
+			f = getBacktrackBoard();
+			if (f == null || f == root){
 				return;
 			}
-			f = getHighestPriorityBoard();
 			count++;
 			//int id = System.identityHashCode(f);
 			//boolean New = ids.add(id);

@@ -10,8 +10,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
-//TODO: filterCheck is still buggy (squares not being detected in some instances)
 //TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
+//TODO: actual handling for parents (may not be practicable, although may or may not be needed for deletion, not needed for backtracking)
+//TODO: in order to implement ^, make a custom version of HashTable which supports addition/containment checking in a single unit
 
 public class Main extends Application {
 
@@ -101,7 +102,7 @@ public class Main extends Application {
         primaryStage.show();
 	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
 	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
-        //alert.showAndWait();
+        alert.showAndWait();
     }
 	
     public void updateGUI(){
