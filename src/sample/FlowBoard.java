@@ -122,7 +122,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		if (o instanceof FlowBoard){
 			FlowBoard f = (FlowBoard)o;
-			return flows.equals(f.flows) /*&& parents.equals(f.parents) && children.equals(f.children) && layer.equals(f.layer)*/;
+			return flows.equals(f.flows) && Arrays.equals(nodes, f.nodes) /*&& parents.equals(f.parents) && children.equals(f.children) && layer.equals(f.layer)*/;
 		}
 		return false;
 	}
@@ -130,6 +130,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	public int hashCode(){
 		int result = 17;
 		result = 31 * result + Arrays.deepHashCode(nodes);
+		result = 31 * result + flows.hashCode();
 		return result;
 	}
 	

@@ -60,6 +60,27 @@ public class Layer {
 		return true;
 	}
 	
+	public FlowBoard addC(FlowBoard f){
+		int h = f.hashCode();
+		if (boards.containsKey(h)){
+			return boards.get(h);
+		}
+		boards.put(h, f);
+		return null;
+	}
+	
+	public boolean addM(FlowBoard f, FlowBoard p){
+		FlowBoard inBoard = addC(f);
+		if (inBoard != null){
+			if (p != null) {
+				p.children.add(inBoard);
+			}
+			inBoard.parents.add(p);
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	public void delete(){
 		boards.clear();

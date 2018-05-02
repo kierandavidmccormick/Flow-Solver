@@ -101,7 +101,7 @@ public class Main extends Application {
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
 	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
-	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.layers.getLast().boards.size() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
+	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.getBoardsSize() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
         alert.showAndWait();
     }
 	

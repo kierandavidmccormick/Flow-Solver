@@ -108,7 +108,7 @@ public class Arbor {
 			System.out.println("Count: " + count/* + " New: " + New + " Board: " + id*/);
 			
 		}
-		System.out.println("Boards: " + getBoardsSize());
+		//System.out.println("Boards: " + getBoardsSize());
 	}
 	
 	public int getBoardsSize(){
@@ -142,11 +142,13 @@ public class Arbor {
 		}
 		if (layer < layers.size()){
 			f.layer = layers.get(layer);
-			layers.get(layer).boards.put(f.hashCode(), f);
+			//layers.get(layer).boards.put(f.hashCode(), f);
+			layers.get(layer).addM(f, p);
 		} else if (layer == layers.size()){
 			genNewLayer();
 			f.layer = layers.get(layer);
-			layers.get(layer).boards.put(f.hashCode(), f);
+			//layers.get(layer).boards.put(f.hashCode(), f);
+			layers.get(layer).addM(f, p);
 		} else {
 			System.err.println("ATTEMPTED TO ADD NODE(S) TO INVALID LAYER");
 			return false;
@@ -155,7 +157,8 @@ public class Arbor {
 			return true;
 		}
 		if (addChildren){
-			HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
+			//HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
+			HashSet<FlowBoard> newBoards = f.getApplicableChildren();
 			for (FlowBoard fl : newBoards){
 				addNode(layer + 1, fl, f, newBoards.size() == 1);
 			}
