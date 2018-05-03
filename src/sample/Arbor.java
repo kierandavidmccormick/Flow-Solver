@@ -93,7 +93,7 @@ public class Arbor {
 		//FlowBoard f = getHighestPriorityBoard();
 		FlowBoard f = getBacktrackBoard();
 		int count = 0;
-		int repetitions = 100;
+		int repetitions = 100000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);

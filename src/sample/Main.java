@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
-//TODO: actual handling for parents (may not be practicable, although may or may not be needed for deletion, not needed for backtracking)
 //TODO: ensure that hashTables contain no duplicate keys or values
 
 public class Main extends Application {
@@ -34,7 +33,11 @@ public class Main extends Application {
 	    //FlowBoard fl = new FlowBoard(2, 0, 6, 8, 3, 0, 8, 5, 4, 0, 8, 1, 2, 1, 6, 0, 3, 2, 2, 3, 5, 5, 0, 6, 0, 7, 5, 8, 7, 7, 9, 9, 8, 7, 9, 8, 0, 8, 3, 9, 1, 8, 7, 9);
 	    //FlowBoard fl = new FlowBoard(0,0,4,4, 1,1,2,4, 1,2,2,7, 2,1,5,6, 3,1,2,6, 4,7,7,2);   //10x10
 	    //FlowBoard fl = new FlowBoard(0,2,3,1, 1,1,3,3, 3,0,7,0, 4,1,4,3, 1,3,4,4, 0,3,0,7, 0,5,6,2);  //8x8
-	    FlowBoard fl = new FlowBoard(0,0,5,2, 0,1,7,7, 1,1,4,2, 6,0,2,6, 7,0,3,4, 2,3,7,6, 3,6,6,6);  //8x8
+	    //FlowBoard fl = new FlowBoard(0,0,5,2, 0,1,7,7, 1,1,4,2, 6,0,2,6, 7,0,3,4, 2,3,7,6, 3,6,6,6);  //8x8
+	    //FlowBoard fl = new FlowBoard(1,0,0,6, 1,1,6,6, 1,2,3,3, 2,2,2,5, 3,1,3,4); //7x7
+	    //FlowBoard fl = new FlowBoard(2,0,0,3, 1,1,2,4, 2,1,4,4, 4,3,0,4, 4,1,1,5); //7x7
+	    //FlowBoard fl = new FlowBoard(0,0,0,6, 1,0,3,5, 3,2,0,5, 5,1,6,6); //7x7
+	    FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);

@@ -14,7 +14,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	HashSet<FlowBoard> parents;
 	HashSet<FlowBoard> children;
 	Layer layer;
-	boolean isLeaf;
+	Boolean isLeaf;
 	
 	public FlowBoard(int... locArgs){
 		nodes = new Node[Main.DIM][Main.DIM];
@@ -557,20 +557,43 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public void markAsLeaf(){
-		isLeaf = true;
-		if (parents.size() > 0){
-			for (FlowBoard p : parents){
-				boolean setIsLeaf = true;
-				for (FlowBoard c : p.children){
-					if (!c.isLeaf){
-						setIsLeaf = false;
-						break;
+		if (!isLeaf) {
+			isLeaf = true;
+			if (parents.size() > 0) {
+				for (FlowBoard p : parents) {
+					boolean setIsLeaf = true;
+					for (FlowBoard c : p.children) {
+						if (!c.isLeaf) {
+							setIsLeaf = false;
+							break;
+						}
+					}
+					if (setIsLeaf) {
+						p.markAsLeaf();
 					}
 				}
-				if (setIsLeaf){
-					p.markAsLeaf();
-				}
+			}
+			delete();
+		}
+	}
+	
+	public void delete() {
+		if (!isLeaf) {
+			System.err.println("****** ERROR: ILLEGAL BOARD DELETION!");
+		}
+		layer.boards.remove(hashCode());
+		for (FlowBoard c : children) {
+			c.parents.remove(this);
+			c.delete();
+		}
+		for (FlowBoard p : parents) {
+			p.children.remove(this);
+			if (p.isLeaf) {
+				p.delete();
 			}
 		}
+		//parents = null;
+		//children = null;
+		//isLeaf = null;
 	}
 }
