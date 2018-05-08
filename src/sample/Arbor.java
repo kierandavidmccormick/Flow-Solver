@@ -29,6 +29,28 @@ public class Arbor {
 		}
 		viewIndex %= layers.size();
 	}
+	
+	public void prune(){
+		LinkedList<Layer> lToDelete = new LinkedList<>();
+		LinkedList<Integer> kToDelete = new LinkedList<>();
+		for (Layer l : layers){
+			for (Integer k : l.boards.keySet()){
+				if (l.boards.get(k) == null){
+					//l.boards.remove(k);
+					kToDelete.add(k);
+				}
+			}
+			for (Integer i : kToDelete){
+				l.boards.remove(i);
+			}
+			if (l.getBoardsIterable().size() == 0){
+				lToDelete.add(l);
+				//System.out.println("Deleting layer: " + layers.indexOf(l));
+			}
+		}
+		layers.removeAll(lToDelete);
+	}
+	
 	/*
 	public void genLayer(Collection<FlowBoard> fls){
 		layers.add(new Layer(fls, this));
@@ -71,20 +93,24 @@ public class Arbor {
 	public FlowBoard getBacktrackBoard(){
 		FlowBoard current = workingBoards.peek();
 		do {
-			for (FlowBoard child : current.children) {
-				if (child.isSolved()){
-					workingBoards.push(child);
-					System.out.println("SOLVED");
-					return null;
-				}
-				if (!child.isLeaf) {
-					workingBoards.push(child);
-					return child;
+			if (current != null) {
+				for (FlowBoard child : current.children.values()) {
+					if (child != null) {
+						if (child.isSolved()) {
+							workingBoards.push(child);
+							System.out.println("SOLVED");
+							return null;
+						}
+						if (!child.isLeaf) {
+							workingBoards.push(child);
+							return child;
+						}
+					}
 				}
 			}
 			workingBoards.pop();
 			current = workingBoards.peek();
-		} while (current != root);
+		} while (current == null || current != root);
 		return root;
 	}
 	
@@ -93,7 +119,7 @@ public class Arbor {
 		//FlowBoard f = getHighestPriorityBoard();
 		FlowBoard f = getBacktrackBoard();
 		int count = 0;
-		int repetitions = 100000;
+		int repetitions = 1000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);

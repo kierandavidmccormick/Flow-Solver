@@ -1,9 +1,6 @@
 package sample;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Created by kieranmccormick on 12/26/17.
@@ -11,8 +8,10 @@ import java.util.LinkedList;
 public class FlowBoard implements Comparable<FlowBoard>{
 	public Node[][] nodes;
 	ArrayList<Flow> flows;
-	HashSet<FlowBoard> parents;
-	HashSet<FlowBoard> children;
+	//HashSet<FlowBoard> parents;
+	HashMap<Integer, FlowBoard> parents;
+	//HashSet<FlowBoard> children;
+	HashMap<Integer, FlowBoard> children;
 	Layer layer;
 	Boolean isLeaf;
 	
@@ -24,7 +23,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		LinkedList<Flow> newFlows = new LinkedList<>();
-		children = new HashSet<>();
+		children = new HashMap<>();
 		for (int i = 0; i < locArgs.length; i+=4){
 			Coordinate c1 = new Coordinate(locArgs[i], locArgs[i+1]);
 			Coordinate c2 = new Coordinate(locArgs[i+2], locArgs[i+3]);
@@ -40,7 +39,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 				nodes[n.loc.x][n.loc.y] = n;
 			}
 		}
-		parents = new HashSet<>(0);
+		parents = new HashMap<>(0);
 		isLeaf = false;
 	}
 	
@@ -52,14 +51,14 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		if (f.parents != null) {
-			parents = new HashSet<>(f.parents);
+			parents = new HashMap<>(f.parents);
 		} else {
-			parents = new HashSet<>();
+			parents = new HashMap<>();
 		}
 		if (f.children != null) {
-			children = new HashSet<>(f.children);
+			children = new HashMap<>(f.children);
 		} else {
-			children = new HashSet<>();
+			children = new HashMap<>();
 		}
 		layer = f.layer;
 		flows = new ArrayList<>(f.flows.size());
@@ -87,12 +86,12 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			this.flows.add(new Flow(flow));
 		}
 		this.layer = layer;
-		parents = new HashSet<>();
-		children = new HashSet<>();
+		parents = new HashMap<>();
+		children = new HashMap<>();
 		isLeaf = false;
 	}
 	
-	public FlowBoard(HashSet<FlowBoard> parents, HashSet<FlowBoard> children, ArrayList<Flow> flows, Layer layer){
+	public FlowBoard(HashMap<Integer, FlowBoard> parents, HashMap<Integer, FlowBoard> children, ArrayList<Flow> flows, Layer layer){
 		//NOTE: not guaranteed not to possess duplicated nodes, do not use outside of proscribed test settings
 		this.flows = flows;
 		this.parents = parents;
@@ -112,8 +111,8 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		isLeaf = false;
 	}
 	
-	public FlowBoard(HashSet<FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
-		this(parents, new HashSet<>(), flows, layer);
+	public FlowBoard(HashMap<Integer, FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
+		this(parents, new HashMap<>(), flows, layer);
 	}
 	
 	public boolean equals(Object o){
@@ -209,20 +208,20 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return newBoards;
 	}
 	
-	public HashSet<FlowBoard> setAsParentOf(HashSet<FlowBoard> fs){
-		children.addAll(fs);
-		for (FlowBoard f : fs){
-			f.parents.add(this);
+	public HashMap<Integer, FlowBoard> setAsParentOf(HashMap<Integer, FlowBoard> fs){
+		children.putAll(fs);
+		for (FlowBoard f : fs.values()){
+			f.parents.put(hashCode(), this);
 		}
 		return fs;
 	}
 	
 	public FlowBoard setAsParentOf(FlowBoard f){
-		children.add(f);
-		f.parents.add(this);
+		children.put(f.hashCode(), f);
+		f.parents.put(hashCode(), this);
 		return f;
 	}
-	
+	/*
 	public boolean addCertainMoves(boolean rec){
 		boolean addedNode = false;
 		LinkedList<Node> nodes = new LinkedList<>();
@@ -249,7 +248,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		return addedNode;
 	}
-	
+	*/
 	/*
 	public boolean addCertainMoves(boolean rec){
 		Node node = null;
@@ -559,39 +558,53 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	public void markAsLeaf(){
 		if (!isLeaf) {
 			isLeaf = true;
+			delete();
 			if (parents.size() > 0) {
-				for (FlowBoard p : parents) {
-					boolean setIsLeaf = true;
-					for (FlowBoard c : p.children) {
-						if (!c.isLeaf) {
-							setIsLeaf = false;
-							break;
+				for (FlowBoard p : parents.values()) {
+					if (p != null) {
+						boolean setIsLeaf = true;
+						for (FlowBoard c : p.children.values()) {
+							if (c != null && !c.isLeaf) {
+								setIsLeaf = false;
+								break;
+							}
 						}
-					}
-					if (setIsLeaf) {
-						p.markAsLeaf();
+						if (setIsLeaf) {
+							p.markAsLeaf();
+						}
 					}
 				}
 			}
-			delete();
+		} else {
+			int i = 0;
 		}
 	}
 	
 	public void delete() {
 		if (!isLeaf) {
 			System.err.println("****** ERROR: ILLEGAL BOARD DELETION!");
+			return;
 		}
-		layer.boards.remove(hashCode());
-		for (FlowBoard c : children) {
-			c.parents.remove(this);
-			c.delete();
-		}
-		for (FlowBoard p : parents) {
-			p.children.remove(this);
-			if (p.isLeaf) {
-				p.delete();
+		int h = hashCode();
+		layer.boards.put(h, null);
+		for (FlowBoard c : children.values()) {
+			if (c != null) {
+				//c.parents.remove(this.hashCode());
+				c.parents.put(h, null);
+				c.delete();
 			}
 		}
+		/*      // parent deletion handled in markAsLeaf
+		for (FlowBoard p : parents.values()) {
+			if (p != null) {
+				//p.children.remove(this.hashCode());
+				p.children.put(h, null);
+				if (p.isLeaf) {
+					p.delete();
+				}
+			}
+		}
+		*/
 		//parents = null;
 		//children = null;
 		//isLeaf = null;

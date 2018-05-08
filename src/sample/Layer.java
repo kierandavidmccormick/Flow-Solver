@@ -51,9 +51,9 @@ public class Layer {
 	}
 	
 	public boolean allBoardsUnique(){
-		HashSet<FlowBoard> newBoards = new HashSet<>(boards.size());
-		for (FlowBoard f : boards.values()){
-			if (!newBoards.add(f)){
+		HashSet<Integer> newBoards = new HashSet<>(boards.size());
+		for (Integer i : boards.keySet()){
+			if (!newBoards.add(i)){
 				return false;
 			}
 		}
@@ -73,9 +73,9 @@ public class Layer {
 		FlowBoard inBoard = addC(f);
 		if (inBoard != null){
 			if (p != null) {
-				p.children.add(inBoard);
+				p.children.put(inBoard.hashCode(), inBoard);
 			}
-			inBoard.parents.add(p);
+			inBoard.parents.put(p.hashCode(), p);
 			return true;
 		}
 		return false;

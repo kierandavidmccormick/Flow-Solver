@@ -3,8 +3,7 @@ import org.junit.Test;
 import sample.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 /**
  * Created by kieranmccormick on 12/26/17.
@@ -30,7 +29,7 @@ public class CoordinateTest {
 		f2 = new Flow(c, d, 1);
 		flowArrayList.add(f1);
 		flowArrayList.add(f2);
-		fl = new FlowBoard(new HashSet<>(), new HashSet<>(), flowArrayList, new Layer(new Arbor(fl)));
+		fl = new FlowBoard(new HashMap<>(), new HashMap<>(), flowArrayList, new Layer(new Arbor(fl)));
 	}
 	
 	@Test

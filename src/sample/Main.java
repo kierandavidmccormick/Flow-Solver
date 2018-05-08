@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 //TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
 //TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
 //TODO: ensure that hashTables contain no duplicate keys or values
+//TODO: move all to hashTables, instead of deleting flowBoards, keep hash and null as values in table
 
 public class Main extends Application {
 
-	public static int DIM = 8;
+	public static int DIM = 7;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
@@ -36,8 +37,8 @@ public class Main extends Application {
 	    //FlowBoard fl = new FlowBoard(0,0,5,2, 0,1,7,7, 1,1,4,2, 6,0,2,6, 7,0,3,4, 2,3,7,6, 3,6,6,6);  //8x8
 	    //FlowBoard fl = new FlowBoard(1,0,0,6, 1,1,6,6, 1,2,3,3, 2,2,2,5, 3,1,3,4); //7x7
 	    //FlowBoard fl = new FlowBoard(2,0,0,3, 1,1,2,4, 2,1,4,4, 4,3,0,4, 4,1,1,5); //7x7
-	    //FlowBoard fl = new FlowBoard(0,0,0,6, 1,0,3,5, 3,2,0,5, 5,1,6,6); //7x7
-	    FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion
+	    FlowBoard fl = new FlowBoard(0,0,0,6, 1,0,3,5, 3,2,0,5, 5,1,6,6); //7x7
+	    //FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
@@ -65,8 +66,8 @@ public class Main extends Application {
 		    updateGUI();
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", allBoardsUnique: " + ar.layers.get(ar.viewIndex).allBoardsUnique());
-	        ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck();
+        	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", layer size: " + ar.layers.get(ar.viewIndex).getBoardsIterable().size());
+	        //ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck();
         	updateGUI();
         });
 	    for (int i = 0; i < DIM; i++){
@@ -100,6 +101,7 @@ public class Main extends Application {
 	    */
 	    //ar.genLayersForever();
 	    ar.genNextNodes();
+	    ar.prune();
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
