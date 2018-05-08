@@ -9,11 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-//TODO: add compressed versions of flowBoards, nodes, etc. (only if actually necessary, new techniques may obviate this)
-//TODO: checking for solved boards is still not working (or possibly no solved boards have been encountered)
-//TODO: ensure that hashTables contain no duplicate keys or values
-//TODO: move all to hashTables, instead of deleting flowBoards, keep hash and null as values in table
-
 public class Main extends Application {
 
 	public static int DIM = 7;
@@ -66,7 +61,7 @@ public class Main extends Application {
 		    updateGUI();
 	    });
         runRectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-        	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", layer size: " + ar.layers.get(ar.viewIndex).getBoardsIterable().size());
+        	System.out.println("isLeaf: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isLeaf + ", solved: " + ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).isSolved());
 	        //ar.layers.get(ar.viewIndex).getBoardsIterable().get(ar.layers.get(ar.viewIndex).viewIndex).globalFilterCheck();
         	updateGUI();
         });

@@ -575,8 +575,6 @@ public class FlowBoard implements Comparable<FlowBoard>{
 					}
 				}
 			}
-		} else {
-			int i = 0;
 		}
 	}
 	

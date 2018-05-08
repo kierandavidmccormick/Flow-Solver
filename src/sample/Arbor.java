@@ -78,11 +78,28 @@ public class Arbor {
 	}
 	*/
 	
-	public FlowBoard getHighestPriorityBoard(){
+	public FlowBoard getBreadthFirstBoard(){    // hard breadth first search
+		for (Layer layer : layers) {
+			for (FlowBoard f : layer.boards.values()) {
+				if (f != null) {
+					if (f.isSolved()) {
+						System.out.println("Solved");
+						return null;
+					}
+					if (f.children.size() == 0 && !f.isLeaf) {
+						return f;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public FlowBoard getHighestPriorityBoard(){     // hard depth first search
 		//TODO: add handling for priority rating
 		for (int i = layers.size()-1; i != 0; i--){
 			for (FlowBoard f : layers.get(i).boards.values()){
-				if (f.children.size() == 0 && !f.isLeaf){
+				if (f != null && f.children.size() == 0 && !f.isLeaf){
 					return f;
 				}
 			}
@@ -90,7 +107,7 @@ public class Arbor {
 		return null;
 	}
 	
-	public FlowBoard getBacktrackBoard(){
+	public FlowBoard getBacktrackBoard(){       // soft depth first search
 		FlowBoard current = workingBoards.peek();
 		do {
 			if (current != null) {
@@ -117,14 +134,17 @@ public class Arbor {
 	
 	public void genNextNodes(){
 		//FlowBoard f = getHighestPriorityBoard();
-		FlowBoard f = getBacktrackBoard();
+		FlowBoard f = getBreadthFirstBoard();
 		int count = 0;
-		int repetitions = 1000;
+		int repetitions = 120;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
-			addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f);
+			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
+				return;
+			}
 			//f = getHighestPriorityBoard();
-			f = getBacktrackBoard();
+			//f = getBacktrackBoard();
+			f = getBreadthFirstBoard();
 			if (f == null || f == root){
 				return;
 			}
@@ -134,7 +154,7 @@ public class Arbor {
 			System.out.println("Count: " + count/* + " New: " + New + " Board: " + id*/);
 			
 		}
-		//System.out.println("Boards: " + getBoardsSize());
+		System.out.println("Boards: " + getBoardsSize());
 	}
 	
 	public int getBoardsSize(){
