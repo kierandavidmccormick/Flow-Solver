@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	//JVM options:
+	//MaxInlineSize
+	//AggressiveHeap
+	
 	public static int DIM = 7;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);

@@ -96,7 +96,7 @@ public class Arbor {
 	}
 	
 	public FlowBoard getHighestPriorityBoard(){     // hard depth first search
-		//TODO: add handling for priority rating
+		//TODO: add handling for priority rating, add handling for detecting solved boards
 		for (int i = layers.size()-1; i != 0; i--){
 			for (FlowBoard f : layers.get(i).boards.values()){
 				if (f != null && f.children.size() == 0 && !f.isLeaf){
@@ -133,10 +133,10 @@ public class Arbor {
 	
 	
 	public void genNextNodes(){
-		//FlowBoard f = getHighestPriorityBoard();
-		FlowBoard f = getBreadthFirstBoard();
+		FlowBoard f = getHighestPriorityBoard();
+		//FlowBoard f = getBreadthFirstBoard();
 		int count = 0;
-		int repetitions = 120;
+		int repetitions = 150;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
@@ -183,6 +183,9 @@ public class Arbor {
 	}
 	
 	public boolean addNode(int layer, FlowBoard f, FlowBoard p, boolean addChildren){
+		if (layer > 40){
+			int i = 0;
+		}
 		if (p != null) {
 			p.setAsParentOf(f);
 		}
@@ -200,14 +203,18 @@ public class Arbor {
 			return false;
 		}
 		if (f.isSolved()){
+			int j = 0;
 			return true;
 		}
 		if (addChildren){
 			//HashSet<FlowBoard> newBoards = f.setAsParentOf(f.getApplicableChildren());
 			HashSet<FlowBoard> newBoards = f.getApplicableChildren();
 			for (FlowBoard fl : newBoards){
-				addNode(layer + 1, fl, f, newBoards.size() == 1);
+				if (addNode(layer + 1, fl, f, newBoards.size() == 1)){
+					return true;
+				}
 			}
+			
 		}
 		return false;
 	}
@@ -215,6 +222,7 @@ public class Arbor {
 	public boolean addNodes(int layer, Collection<FlowBoard> f, FlowBoard p){
 		for (FlowBoard fl : f){
 			if (addNode(layer, fl, p, f.size() == 1)){
+				int i = 0;
 				return true;
 			}
 		}
