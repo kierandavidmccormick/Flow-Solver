@@ -15,7 +15,7 @@ public class Main extends Application {
 	//MaxInlineSize
 	//AggressiveHeap
 	
-	public static int DIM = 7;
+	public static int DIM = 8;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
@@ -36,8 +36,9 @@ public class Main extends Application {
 	    //FlowBoard fl = new FlowBoard(0,0,5,2, 0,1,7,7, 1,1,4,2, 6,0,2,6, 7,0,3,4, 2,3,7,6, 3,6,6,6);  //8x8
 	    //FlowBoard fl = new FlowBoard(1,0,0,6, 1,1,6,6, 1,2,3,3, 2,2,2,5, 3,1,3,4); //7x7
 	    //FlowBoard fl = new FlowBoard(2,0,0,3, 1,1,2,4, 2,1,4,4, 4,3,0,4, 4,1,1,5); //7x7
-	    FlowBoard fl = new FlowBoard(0,0,0,6, 1,0,3,5, 3,2,0,5, 5,1,6,6); //7x7
-	    //FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion
+	    //FlowBoard fl = new FlowBoard(0,0,0,6, 1,0,3,5, 3,2,0,5, 5,1,6,6); //7x7
+	    FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion       //2 cycles, .328 seconds, 108 boards 8MB used with breadth-first
+	    //FlowBoard fl = new FlowBoard(1,1,7,7, 3,2,7,4, 4,3,1,7, 4,4,8,3, 7,0,6,7, 8,4,0,6, 1,10,10,6, 9,1,1,8);
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
@@ -104,7 +105,7 @@ public class Main extends Application {
 	    updateGUI();
 	    primaryStage.setScene(new Scene(root, DIM * 50, DIM * 50 + 100));
         primaryStage.show();
-	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed");
+	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your program has completed\n" + "Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.getBoardsSize() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 	    System.out.println("Time taken: " + (System.currentTimeMillis() - t1) + " millis, size: " + ar.getBoardsSize() + ", memory used (mb): " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
         alert.showAndWait();
     }
