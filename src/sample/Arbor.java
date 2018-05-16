@@ -136,15 +136,15 @@ public class Arbor {
 		FlowBoard f = getHighestPriorityBoard();
 		//FlowBoard f = getBreadthFirstBoard();
 		int count = 0;
-		int repetitions = 100000;
+		int repetitions = 1000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
 				return;
 			}
-			f = getHighestPriorityBoard();
+			//f = getHighestPriorityBoard();
 			//f = getBacktrackBoard();
-			//f = getBreadthFirstBoard();
+			f = getBreadthFirstBoard();
 			if (f == null || f == root){
 				return;
 			}

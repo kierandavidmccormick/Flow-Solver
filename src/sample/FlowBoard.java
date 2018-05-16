@@ -186,8 +186,9 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		return new ArrayList<>(children);
 	}
 	*/
-	public HashSet<FlowBoard> getApplicableChildren(){
-		HashSet<FlowBoard> newBoards = new HashSet<>();
+	public HashSet<FlowBoard> getApplicableChildren(){      //NOTE: can set calling board and others to null if no children are found, may break soft depth-first search although it shouldn't
+		/*
+		HashSet<FlowBoard> newBoards = new HashSet<>(3);
 		boolean oneChild = false;
 		for (Flow f : flows){
 			for (Node n : f.workingNodes){
@@ -206,6 +207,31 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		return newBoards;
+		*/
+		
+		HashSet<FlowBoard> newBoards = new HashSet<>(3);
+		boolean oneChild = false;
+		for (Flow f : flows){
+			for (Node n : f.workingNodes){
+				LinkedList<FlowBoard> newBoardsTemp = n.getBoardChildren(this);
+				if (newBoardsTemp.size() == 0){
+					markAsLeaf();
+					return new HashSet<>(0);
+				} else if (newBoardsTemp.size() == 1 && !oneChild){
+					newBoards.clear();
+					newBoards.addAll(newBoardsTemp);
+					oneChild = true;
+				} else if (newBoards.size() == 0){
+					newBoards.addAll(newBoardsTemp);
+				}
+			}
+			if (f.workingNodes.size() > 0){
+				return newBoards;
+			}
+		}
+		return newBoards;
+		
+		
 	}
 	
 	public HashMap<Integer, FlowBoard> setAsParentOf(HashMap<Integer, FlowBoard> fs){
@@ -352,7 +378,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			int j;
 			for (i = 0; i < nodes.length; i++) {
 				for (j = 0; j < nodes[0].length; j++) {
-					if (i != nodes.length - 1 && j != nodes[0].length - 1) {    //TODO: should this really be like this?
+					if (i != nodes.length - 1 && j != nodes[0].length - 1) {
 						if (checkSquare(new Coordinate(i, j), new Coordinate(filter.length - 1, filter[0].length - 1), filter)) {
 							return true;
 						}

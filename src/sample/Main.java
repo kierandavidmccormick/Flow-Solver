@@ -15,7 +15,7 @@ public class Main extends Application {
 	//MaxInlineSize
 	//AggressiveHeap
 	
-	public static int DIM = 10;
+	public static int DIM = 14;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
@@ -40,7 +40,8 @@ public class Main extends Application {
 	    //FlowBoard fl = new FlowBoard(1,0,3,4, 1,1,1,5, 2,3,4,6, 2,4,1,6, 3,1,6,6, 4,7,7,2, 6,7,7,3); //8x8 (solves after 86793 cycles, 7.59 minutes, 3279 boards, 1053 MB)      //86793 cycles, 9.52 minutes, 78 boards, 72 MB used with deletion       //2 cycles, .328 seconds, 108 boards 8MB used with breadth-first
 	    //FlowBoard fl = new FlowBoard(1,1,7,7, 3,2,7,4, 4,3,1,7, 4,4,8,3, 7,0,6,7, 8,4,0,6, 1,10,10,6, 9,1,1,8);
 	    //FlowBoard fl = new FlowBoard(0,0,2,6, 2,2,3,1, 1,3,9,6, 3,2,8,4, 2,3,6,3, 1,4,6,8, 5,0,9,0, 3,3,6,4, 1,7,8,5, 1,8,4,9, 5,6,8,8, 0,7,1,9);       //10x10, trivial
-	    FlowBoard fl = new FlowBoard(0,5,7,5, 0,6,4,1, 0,7,7,3, 1,7,5,4, 3,3,6,5, 5,5,6,2, 6,0,7,2, 6,1,8,1);
+	    //FlowBoard fl = new FlowBoard(0,5,7,5, 0,6,4,1, 0,7,7,3, 1,7,5,4, 3,3,6,5, 5,5,6,2, 6,0,7,2, 6,1,8,1);
+	    FlowBoard fl = new FlowBoard(0,0,10,0 /*white*/ ,1,2,2,11 /*pink*/ ,3,1,10,7 /*red*/ ,3,2,12,1 /*blue*/ ,2,4,3,7 /*gray*/ ,1,6,4,9 /*dgreen*/ ,1,11,4,8 /*yellow*/ ,4,4,10,1 /*brown*/ ,6,3,11,9 /*purple*/ ,7,3,11,10 /*orange*/ ,7,11,11,11 /*lblue*/ ,0,9,12,3 /*lgreen*/);     //14x14
 	    ar = new Arbor(fl);
 	    incRectangle.setFill(Color.RED);
         decRectangle.setFill(Color.BLUE);
