@@ -631,7 +631,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 	}
 	
-	public void delete() {
+	public void delete(){
 		if (!isLeaf) {
 			System.err.println("****** ERROR: ILLEGAL BOARD DELETION!");
 			return;
@@ -659,5 +659,21 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		//parents = null;
 		//children = null;
 		//isLeaf = null;
+	}
+	
+	public void softDelete(){
+		int h = hashCode();
+		layer.boards.put(h, null);
+		for (FlowBoard c : children.values()) {
+			if (c != null) {
+				//c.parents.remove(this.hashCode());
+				c.parents.put(h, null);
+			}
+		}
+		for (FlowBoard p : parents.values()){
+			if (p != null){
+				p.children.put(h, null);
+			}
+		}
 	}
 }

@@ -99,15 +99,21 @@ public class Arbor {
 	
 	public FlowBoard getBreadthFirstBoard(){    // hard breadth first search
 		for (Layer layer : layers) {
-			for (FlowBoard f : layer.boards.values()) {
-				if (f != null) {
-					if (f.isSolved()) {
-						System.out.println("Solved");
-						return null;
+			if (!layer.isFinished) {
+				for (FlowBoard f : layer.boards.values()) {
+					if (f != null) {
+						if (f.isSolved()) {         //TODO: optimize checking of solved boards
+							System.out.println("Solved");
+							return null;
+						}
+						if (f.children.size() == 0 && !f.isLeaf) {
+							return f;
+						}
 					}
-					if (f.children.size() == 0 && !f.isLeaf) {
-						return f;
-					}
+				}
+				layer.isFinished = true;
+				if (layers.indexOf(layer) - 1 > 0 && layers.get(layers.indexOf(layer)-1).isFinished){
+					layers.get(layers.indexOf(layer)-1).killAll();
 				}
 			}
 		}
@@ -152,10 +158,10 @@ public class Arbor {
 	
 	
 	public void genNextNodes(){
-		FlowBoard f = getHighestPriorityBoard();
-		//FlowBoard f = getBreadthFirstBoard();
+		//FlowBoard f = getHighestPriorityBoard();
+		FlowBoard f = getBreadthFirstBoard();
 		int count = 0;
-		int repetitions = 75000;
+		int repetitions = 10000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){

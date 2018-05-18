@@ -10,12 +10,14 @@ public class Layer {
 	HashMap<Integer, FlowBoard> boards;
 	int viewIndex;
 	Arbor ar;
+	boolean isFinished;
 	
 	public Layer(Arbor ar){
 		boards = new HashMap<>();
 		viewIndex = 0;
 		this.ar = ar;
 		ar.layers.add(this);
+		isFinished = false;
 	}
 	/*
 	public Layer(FlowBoard f, Arbor ar){
@@ -79,6 +81,14 @@ public class Layer {
 			return true;
 		}
 		return false;
+	}
+	
+	public void killAll(){
+		LinkedList<Integer> doomed = new LinkedList<>();
+		doomed.addAll(boards.keySet());
+		for (Integer k : doomed){
+			boards.remove(k);
+		}
 	}
 	
 	/*
