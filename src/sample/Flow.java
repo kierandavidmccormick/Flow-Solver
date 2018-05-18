@@ -70,7 +70,7 @@ public class Flow {
 		}
 		endNodes = new LinkedList<>();
 		for (Node n : f.endNodes){
-			endNodes.add(new Node(n));      //creates duplicates for workingNodes and endNodes
+			endNodes.add(new Node(n));
 		}
 		workingNodes = new LinkedList<>();
 		for (Node n : f.workingNodes){
@@ -95,6 +95,15 @@ public class Flow {
 		isSolved = f.isSolved;
 	}
 	
+	public int endsOnEdge(FlowBoard f){     //NOTE: will throw ArrayOutOfBoundsException if flow is finished
+		if (endNodes.get(0).loc.isOnEdge(f) && endNodes.get(1).loc.isOnEdge(f)){
+			return 2;
+		} else if (endNodes.get(0).loc.isOnEdge(f) || endNodes.get(1).loc.isOnEdge(f)){
+			return 1;
+		}
+		return 0;
+	}
+	
 	public void addNode(Node n, FlowBoard f){
 		if (isSolved){
 			System.err.println("****** ATTEMPTED TO ILLEGALLY ADD NODE");
@@ -109,7 +118,9 @@ public class Flow {
 			//NOTE: must set isSolved status of new node at node constructor
 		}
 		workingNodes.add(n);
-		resolveSolved(f);
+		if (resolveSolved(f)){
+			f.sortFlows();
+		}
 		if (!isSolved) {
 			nodes.sort(Comparator.comparingInt(Node::hashCode));
 			workingNodes.sort(Comparator.comparing(Node::hashCode));
@@ -125,10 +136,12 @@ public class Flow {
 		}
 	}
 	
-	public void resolveSolved(FlowBoard f){
+	public boolean resolveSolved(FlowBoard f){
 		if (checkSolved(f)){
 			finish();
+			return true;
 		}
+		return false;
 	}
 	
 	public boolean checkSolved(FlowBoard f) {

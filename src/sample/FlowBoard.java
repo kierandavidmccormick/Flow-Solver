@@ -34,6 +34,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			newFlows.add(new Flow(n1, n2, (byte)(i/4)));
 		}
 		flows = new ArrayList<>(newFlows);
+		sortFlows();
 		for (Flow flow : flows){
 			for (Node n : flow.nodes){
 				nodes[n.loc.x][n.loc.y] = n;
@@ -113,6 +114,32 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	
 	public FlowBoard(HashMap<Integer, FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
 		this(parents, new HashMap<>(), flows, layer);
+	}
+	
+	public void sortFlows(){
+		flows.sort((f0, f1) -> {       //fails for unknown reasons
+			if (f0.isSolved || f1.isSolved){
+				if (f0.isSolved && f1.isSolved){
+					return 0;
+				} else if (f1.isSolved){
+					return 1;
+				}
+				return -1;
+			}
+			if (f0.endsOnEdge(this) > f1.endsOnEdge(this)) {
+				return -1;
+			} else if (f0.endsOnEdge(this) < f1.endsOnEdge(this)) {
+				return 1;
+			}
+			double d1 = Math.sqrt((f0.endNodes.get(0).loc.x - f0.endNodes.get(1).loc.x) * (f0.endNodes.get(0).loc.x - f0.endNodes.get(1).loc.x) + (f0.endNodes.get(0).loc.y - f0.endNodes.get(1).loc.y) * (f0.endNodes.get(0).loc.y - f0.endNodes.get(1).loc.y));
+			double d2 = Math.sqrt((f1.endNodes.get(0).loc.x - f1.endNodes.get(1).loc.x) * (f1.endNodes.get(0).loc.x - f1.endNodes.get(1).loc.x) + (f1.endNodes.get(0).loc.y - f1.endNodes.get(1).loc.y) * (f1.endNodes.get(0).loc.y - f1.endNodes.get(1).loc.y));
+			if (d1 > d2) {
+				return 1;
+			} else if (d1 < d2) {
+				return -1;
+			}
+			return 0;
+		});
 	}
 	
 	public boolean equals(Object o){

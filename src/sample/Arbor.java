@@ -18,7 +18,26 @@ public class Arbor {
 		this.root = root;
 		addNode(0,root, null, true);
 		workingBoards.push(root);
+		ArrayList<Flow> oldFlows = root.flows;
 		//root.layer = layers.get(0);
+		/*
+		root.flows.sort((f0, f1) -> {       //fails for unknown reasons
+			if (f0.endsOnEdge(root) > f1.endsOnEdge(root)) {
+				return -1;
+			} else if (f0.endsOnEdge(root) < f1.endsOnEdge(root)) {
+				return 1;
+			}
+			double d1 = Math.sqrt((f0.endNodes.get(0).loc.x - f0.endNodes.get(1).loc.x) * (f0.endNodes.get(0).loc.x - f0.endNodes.get(1).loc.x) + (f0.endNodes.get(0).loc.y - f0.endNodes.get(1).loc.y) * (f0.endNodes.get(0).loc.y - f0.endNodes.get(1).loc.y));
+			double d2 = Math.sqrt((f1.endNodes.get(0).loc.x - f1.endNodes.get(1).loc.x) * (f1.endNodes.get(0).loc.x - f1.endNodes.get(1).loc.x) + (f1.endNodes.get(0).loc.y - f1.endNodes.get(1).loc.y) * (f1.endNodes.get(0).loc.y - f1.endNodes.get(1).loc.y));
+			if (d1 > d2) {
+				return 1;
+			} else if (d1 < d2) {
+				return -1;
+			}
+			return 0;
+		});
+		*/
+		int i = 0;
 		viewIndex = 0;
 	}
 	
