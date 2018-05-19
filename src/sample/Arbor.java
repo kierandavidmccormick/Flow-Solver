@@ -18,7 +18,7 @@ public class Arbor {
 		this.root = root;
 		addNode(0,root, null, true);
 		workingBoards.push(root);
-		ArrayList<Flow> oldFlows = root.flows;
+		//ArrayList<Flow> oldFlows = root.flows;
 		//root.layer = layers.get(0);
 		/*
 		root.flows.sort((f0, f1) -> {       //fails for unknown reasons
@@ -161,7 +161,7 @@ public class Arbor {
 		//FlowBoard f = getHighestPriorityBoard();
 		FlowBoard f = getBreadthFirstBoard();
 		int count = 0;
-		int repetitions = 10000;
+		int repetitions = 500000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
 		while (f != null && count < repetitions){
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){

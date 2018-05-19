@@ -84,10 +84,12 @@ public class Layer {
 	}
 	
 	public void killAll(){
-		LinkedList<Integer> doomed = new LinkedList<>();
-		doomed.addAll(boards.keySet());
-		for (Integer k : doomed){
-			boards.remove(k);
+		ArrayList<FlowBoard> doomed = new ArrayList<>(boards.values());
+		System.out.println("Killed layer " + ar.layers.indexOf(this) + " with " + doomed.size() + " boards");
+		for (FlowBoard f : doomed){
+			if (f != null) {
+				f.softDeadlyDelete();
+			}
 		}
 	}
 	

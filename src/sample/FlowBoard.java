@@ -666,13 +666,27 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		layer.boards.put(h, null);
 		for (FlowBoard c : children.values()) {
 			if (c != null) {
-				//c.parents.remove(this.hashCode());
 				c.parents.put(h, null);
 			}
 		}
 		for (FlowBoard p : parents.values()){
 			if (p != null){
 				p.children.put(h, null);
+			}
+		}
+	}
+	
+	public void softDeadlyDelete(){
+		int h = hashCode();
+		layer.boards.remove(h);
+		for (FlowBoard c : children.values()) {
+			if (c != null) {
+				c.parents.remove(h);
+			}
+		}
+		for (FlowBoard p : parents.values()){
+			if (p != null){
+				p.children.remove(h);
 			}
 		}
 	}
