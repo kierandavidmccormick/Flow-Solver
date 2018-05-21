@@ -15,7 +15,8 @@ public class Main extends Application {
 	//MaxInlineSize
 	//AggressiveHeap
 	
-	public static int DIM = 14;
+	public static final int DIM = 14;
+	public static final boolean BLIND = false;
 	Group squares = new Group();
 	Rectangle incRectangle = new Rectangle(0, DIM * 50, (DIM * 50) / 3, 50);
 	Rectangle decRectangle = new Rectangle((DIM * 50) / 1.5, DIM * 50, (DIM * 50) / 3, 50);
