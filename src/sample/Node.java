@@ -71,7 +71,7 @@ public class Node {
 		}
 		for (FlowBoard fl : newBoards){
 			if (newBoards.size() > 0){
-				fl.priorityrating /= 2;
+				fl.priorityrating -= 1;
 			}
 		}
 		return newBoards;

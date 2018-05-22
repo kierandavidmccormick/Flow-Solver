@@ -12,7 +12,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	HashMap<Integer, FlowBoard> children;
 	Layer layer;
 	Boolean isLeaf;
-	float priorityrating;
+	byte priorityrating;
 	
 	public FlowBoard(int... locArgs){
 		nodes = new Node[Main.DIM][Main.DIM];
@@ -41,7 +41,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		parents = new HashMap<>(0);
 		isLeaf = false;
-		priorityrating = Float.MAX_VALUE;
+		priorityrating = Byte.MAX_VALUE;
 	}
 	
 	public FlowBoard(FlowBoard f){
@@ -91,7 +91,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		parents = new HashMap<>();
 		children = new HashMap<>();
 		isLeaf = false;
-		priorityrating = Float.MAX_VALUE;
+		priorityrating = Byte.MAX_VALUE;
 	}
 	
 	public FlowBoard(HashMap<Integer, FlowBoard> parents, HashMap<Integer, FlowBoard> children, ArrayList<Flow> flows, Layer layer){
@@ -112,7 +112,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		isLeaf = false;
-		priorityrating = Float.MAX_VALUE;
+		priorityrating = Byte.MAX_VALUE;
 	}
 	
 	public FlowBoard(HashMap<Integer, FlowBoard> parents, ArrayList<Flow> flows, Layer layer){

@@ -8,13 +8,14 @@ import java.util.*;
 public class Arbor {
 	FlowBoard root;
 	LinkedList<Layer> layers;
-	HashSet<Float> priorityRatings;
+	HashMap<Byte, Boolean> priorityRatings;
 	int viewIndex;
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
 		this.root = root;
 		addNode(0,root, null, true);
+		priorityRatings = new HashMap<>();
 		viewIndex = 0;
 	}
 	
@@ -96,7 +97,36 @@ public class Arbor {
 		}
 		return null;
 	}
-	
+	public FlowBoard getPriorityBoard(){    //based on implemented priorityRating, considers forced boards to be same level as parent
+		byte highestPriority;
+		FlowBoard highestBoard = null;
+		if (priorityRatings.size() > 0){
+			Byte[] array = Arrays.copyOf(priorityRatings.keySet().toArray(), priorityRatings.keySet().size(), Byte[].class);      //messy
+			Arrays.sort(array);
+			highestPriority = array[0];
+		} else {
+			highestPriority = Byte.MAX_VALUE;
+		}
+		for (Layer l : layers){
+			for (FlowBoard f : l.boards.values()){
+				if (f != null) {
+					priorityRatings.put(f.priorityrating, true);
+					if (f.isSolved()) {
+						System.out.println("Solved");
+						return null;
+					}
+					if (f.children.size() == 0 && !f.isLeaf) {
+						if (f.priorityrating >= highestPriority) {
+							return f;
+						}
+						highestBoard = f;       //TODO: implement finishing of layers
+					}
+				}
+			}
+		}
+		return highestBoard;
+	}
+	/*
 	public FlowBoard getHighestPriorityBoard(){     // hard depth first search
 		//TODO: add handling for priority rating, add handling for detecting solved boards
 		for (int i = layers.size()-1; i != 0; i--){
@@ -108,6 +138,7 @@ public class Arbor {
 		}
 		return null;
 	}
+	*/
 	/*
 	public FlowBoard getBacktrackBoard(){       // soft depth first search
 		FlowBoard current = workingBoards.peek();
@@ -134,8 +165,8 @@ public class Arbor {
 	}
 	*/
 	public void genNextNodes(){
-		//FlowBoard f = getHighestPriorityBoard();
-		FlowBoard f = getBreadthFirstBoard();
+		//FlowBoard f = getBreadthFirstBoard();
+		FlowBoard f = getPriorityBoard();
 		int count = 0;
 		int repetitions = 10000;
 		//HashSet<Integer> ids = new HashSet<>(repetitions);
@@ -143,9 +174,8 @@ public class Arbor {
 			if (addNodes(layers.indexOf(f.layer) + 1, f.getApplicableChildren(), f)){
 				return;
 			}
-			//f = getHighestPriorityBoard();
-			//f = getBacktrackBoard();
-			f = getBreadthFirstBoard();
+			//f = getBreadthFirstBoard();
+			f = getPriorityBoard();
 			if (f == null || f == root){
 				return;
 			}
