@@ -637,61 +637,53 @@ public class FlowBoard implements Comparable<FlowBoard>{
 	}
 	
 	public void delete(){
-		if (!isLeaf) {
-			System.err.println("****** ERROR: ILLEGAL BOARD DELETION!");
-			return;
-		}
-		int h = hashCode();
-		layer.boards.put(h, null);
-		for (FlowBoard c : children.values()) {
-			if (c != null) {
-				//c.parents.remove(this.hashCode());
-				c.parents.put(h, null);
-				c.delete();
+		if (Main.BLIND) {
+			if (!isLeaf) {
+				System.err.println("****** ERROR: ILLEGAL BOARD DELETION!");
+				return;
 			}
-		}
-		/*      // parent deletion handled in markAsLeaf
-		for (FlowBoard p : parents.values()) {
-			if (p != null) {
-				//p.children.remove(this.hashCode());
-				p.children.put(h, null);
-				if (p.isLeaf) {
-					p.delete();
+			int h = hashCode();
+			layer.boards.put(h, null);
+			for (FlowBoard c : children.values()) {
+				if (c != null) {
+					//c.parents.remove(this.hashCode());
+					c.parents.put(h, null);
+					c.delete();
 				}
 			}
 		}
-		*/
-		//parents = null;
-		//children = null;
-		//isLeaf = null;
 	}
 	
 	public void softDelete(){
-		int h = hashCode();
-		layer.boards.put(h, null);
-		for (FlowBoard c : children.values()) {
-			if (c != null) {
-				c.parents.put(h, null);
+		if (Main.BLIND) {
+			int h = hashCode();
+			layer.boards.put(h, null);
+			for (FlowBoard c : children.values()) {
+				if (c != null) {
+					c.parents.put(h, null);
+				}
 			}
-		}
-		for (FlowBoard p : parents.values()){
-			if (p != null){
-				p.children.put(h, null);
+			for (FlowBoard p : parents.values()) {
+				if (p != null) {
+					p.children.put(h, null);
+				}
 			}
 		}
 	}
 	
 	public void softDeadlyDelete(){
-		int h = hashCode();
-		layer.boards.remove(h);
-		for (FlowBoard c : children.values()) {
-			if (c != null) {
-				c.parents.remove(h);
+		if (Main.BLIND) {
+			int h = hashCode();
+			layer.boards.remove(h);
+			for (FlowBoard c : children.values()) {
+				if (c != null) {
+					c.parents.remove(h);
+				}
 			}
-		}
-		for (FlowBoard p : parents.values()){
-			if (p != null){
-				p.children.remove(h);
+			for (FlowBoard p : parents.values()) {
+				if (p != null) {
+					p.children.remove(h);
+				}
 			}
 		}
 	}
