@@ -8,12 +8,11 @@ import java.util.*;
 public class FlowBoard implements Comparable<FlowBoard>{
 	public Node[][] nodes;
 	ArrayList<Flow> flows;
-	//HashSet<FlowBoard> parents;
 	HashMap<Integer, FlowBoard> parents;
-	//HashSet<FlowBoard> children;
 	HashMap<Integer, FlowBoard> children;
 	Layer layer;
 	Boolean isLeaf;
+	float priorityrating;
 	
 	public FlowBoard(int... locArgs){
 		nodes = new Node[Main.DIM][Main.DIM];
@@ -42,6 +41,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		}
 		parents = new HashMap<>(0);
 		isLeaf = false;
+		priorityrating = Float.MAX_VALUE;
 	}
 	
 	public FlowBoard(FlowBoard f){
@@ -72,6 +72,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		isLeaf = false;
+		priorityrating = f.priorityrating;
 	}
 	
 	public FlowBoard(Node[][] nodes, ArrayList<Flow> flows, Layer layer){
@@ -90,6 +91,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 		parents = new HashMap<>();
 		children = new HashMap<>();
 		isLeaf = false;
+		priorityrating = Float.MAX_VALUE;
 	}
 	
 	public FlowBoard(HashMap<Integer, FlowBoard> parents, HashMap<Integer, FlowBoard> children, ArrayList<Flow> flows, Layer layer){
@@ -110,6 +112,7 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			}
 		}
 		isLeaf = false;
+		priorityrating = Float.MAX_VALUE;
 	}
 	
 	public FlowBoard(HashMap<Integer, FlowBoard> parents, ArrayList<Flow> flows, Layer layer){
@@ -242,7 +245,9 @@ public class FlowBoard implements Comparable<FlowBoard>{
 			for (Node n : f.workingNodes){
 				LinkedList<FlowBoard> newBoardsTemp = n.getBoardChildren(this);
 				if (newBoardsTemp.size() == 0){
-					markAsLeaf();
+					//if (Main.BLIND) {
+						markAsLeaf();
+					//}
 					return new HashSet<>(0);
 				} else if (newBoardsTemp.size() == 1 && !oneChild){
 					newBoards.clear();

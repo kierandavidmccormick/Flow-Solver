@@ -6,7 +6,6 @@ import java.util.*;
  * Created by kieranmccormick on 1/30/18.
  */
 public class Layer {
-	//HashSet<FlowBoard> boards;
 	HashMap<Integer, FlowBoard> boards;
 	int viewIndex;
 	Arbor ar;

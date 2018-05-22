@@ -8,18 +8,13 @@ import java.util.*;
 public class Arbor {
 	FlowBoard root;
 	LinkedList<Layer> layers;
-	//Stack<FlowBoard> workingBoards;
+	HashSet<Float> priorityRatings;
 	int viewIndex;
 	
 	public Arbor(FlowBoard root){
 		layers = new LinkedList<>();
-		//workingBoards = new Stack<>();
-		//genNewLayer();
 		this.root = root;
 		addNode(0,root, null, true);
-		//workingBoards.push(root);
-		//ArrayList<Flow> oldFlows = root.flows;
-		//root.layer = layers.get(0);
 		viewIndex = 0;
 	}
 	

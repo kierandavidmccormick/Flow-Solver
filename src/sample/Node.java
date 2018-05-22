@@ -69,6 +69,11 @@ public class Node {
 				newBoards.add(newBoard);
 			}
 		}
+		for (FlowBoard fl : newBoards){
+			if (newBoards.size() > 0){
+				fl.priorityrating /= 2;
+			}
+		}
 		return newBoards;
 	}
 }
