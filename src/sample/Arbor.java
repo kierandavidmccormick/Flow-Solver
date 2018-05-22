@@ -107,8 +107,8 @@ public class Arbor {
 		} else {
 			highestPriority = Byte.MAX_VALUE;
 		}
-		for (Layer l : layers){
-			for (FlowBoard f : l.boards.values()){
+		for (Layer layer : layers){
+			for (FlowBoard f : layer.boards.values()){
 				if (f != null) {
 					priorityRatings.put(f.priorityrating, true);
 					if (f.isSolved()) {
@@ -122,6 +122,9 @@ public class Arbor {
 						highestBoard = f;       //TODO: implement finishing of layers
 					}
 				}
+			}
+			if (Main.BLIND && layers.indexOf(layer) - 1 > 0 && layers.get(layers.indexOf(layer)-1).isFinished){
+				layers.get(layers.indexOf(layer)-1).killAll();
 			}
 		}
 		return highestBoard;

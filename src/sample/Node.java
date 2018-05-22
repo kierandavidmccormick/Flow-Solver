@@ -65,13 +65,18 @@ public class Node {
 			newBoard.parents.clear();
 			newBoard.children.clear();
 			newBoard.addNode(new Node(c, colorCode, true, false), newBoard.getFlow(colorCode));
+			if (!c.isOnEdge(f)){
+				newBoard.priorityrating--;
+			}
 			if (!newBoard.fatalError()) {
 				newBoards.add(newBoard);
 			}
 		}
 		for (FlowBoard fl : newBoards){
-			if (newBoards.size() > 0){
+			if (newBoards.size() > 1){
 				fl.priorityrating -= 1;
+			} else {
+				fl.priorityrating = f.priorityrating;
 			}
 		}
 		return newBoards;
